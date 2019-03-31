@@ -2,7 +2,7 @@ import {
 	baseUrl
 } from './env'
 
-export default async(url = '', data = {}, type = 'GET', method = 'fetch') => {
+export default async(url = '', data = {}, type = 'GET') => {
 	type = type.toUpperCase();
 	url = baseUrl + url;
 
@@ -34,7 +34,7 @@ export default async(url = '', data = {}, type = 'GET', method = 'fetch') => {
 		try {
 			const response = type === 'GET' ? await fetch(url) : await fetch(url, {method: 'post', body: JSON.stringify(data)});
 			const responseJson = await response.json();
-			if (responseJson.code === 1001) {
+			if (responseJson.success) {
 				if (responseJson.page) {
 					return {
 						data: responseJson.data,
