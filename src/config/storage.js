@@ -1,4 +1,11 @@
 /**
+ * @file: Describe the file
+ * @author: sunchao
+ * @Date: 2019-04-01 12:43:20
+ * @Last Modified by:   sunchao
+ * @Last Modified time: 2019-04-01 12:43:20
+ */
+/**
  * 存储localStorage
  */
 // 在想是否用session storge

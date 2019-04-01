@@ -7,9 +7,9 @@
       <div class="motto">
         🍋 Welcome to my world! 🍋
       </div>
-      <!-- <div class="bgIm">
-        <img src="../assets/img/test.svg" alt="">
-      </div> -->
+      <div class="bgIm">
+        <img src="../assets/img/rick.svg" alt="">
+      </div>
       <div class="menu" :class="{'shart-show': scrollMenu.isStart, 'on-show': scrollMenu.isRoll}">
         <div v-for="item in menu" :key="item.id">
           <font-awesome-icon :icon="item.icon"></font-awesome-icon>
@@ -39,32 +39,45 @@
           </a>
         </div>
       </div>
+      <div id="fixed-right">
+        <div class="recommand">
+          <h3 class="recommand-header">推荐</h3>
+          <div class="recommand-content">
+            <a v-for="item in recommand" :key="item.id" :href="item.link" target="_blank">
+              {{item.text}}
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
     <footer>
       <div class="footer-container">
         <div class="account">
-          @ &nbsp;2019&nbsp; |&nbsp; <font-awesome-icon icon="user"></font-awesome-icon> &nbsp;suedar
+          @ 2019 | <font-awesome-icon icon="user"></font-awesome-icon> &nbsp;suedar
         </div>
         <div class="footer-icon">
-          <a href="https://github.com/suedar">
-            <font-awesome-icon icon="github"></font-awesome-icon>github
+          <a href="https://github.com/suedar" target="_blank">
+            <img class="icon" src="../assets/img/github.svg" alt="">
+            Github
           </a>
-          <a href="mailto:690372513@qq.com">
-            <font-awesome-icon icon="mailbox"></font-awesome-icon>邮件
+          <a href="mailto:690372513@qq.com" target="_blank">
+            <font-awesome-icon class="mail" icon="envelope"></font-awesome-icon>
+            邮件
           </a>
-          <a href="mailto:690372513@qq.com">
-            <font-awesome-icon icon="alipay"></font-awesome-icon>邮件
+          <a @click="showDialog = true">
+            <img class="icon" src="../assets/img/alipay.svg" alt="">
+            赞赏
           </a>
         </div>
       </div>
     </footer>
-    <!-- <alipay></alipay> -->
+    <alipay v-if="showDialog" v-model="showDialog"></alipay>
   </section>
 </template>
 <script>
 import _ from 'underscore';
 
-import { getBrief } from '@/api/';
+import { getBrief, getRecommand } from '@/api/';
 import alipay from './alipay';
 
 export default {
@@ -92,7 +105,9 @@ export default {
         isStart: false,
         isRoll: false
       },
-      articleTop: 190
+      articleTop: 190,
+      showDialog: false,
+      recommand: []
       // isFixMenu: false
     }
   },
@@ -102,7 +117,9 @@ export default {
   methods: {
     async initConfig() {
       const article = await getBrief({pageNum: 0, pageSie: 10});
+      const recommand = await getRecommand({pageNum: 0, pageSie: 10});
       this.article = article;
+      this.recommand = recommand;
     },
     mousemove: _.debounce(function() {
       // FIXME: 上滑时因为自动调整而bug问题
@@ -111,7 +128,7 @@ export default {
       const isRollDown = top - articleTop;
       // console.log(isRollDown);
       const isStart = top < 30 ? true : false;
-      const isRoll = top < 30 && isRollDown < 0 ? true : false;
+      const isRoll = top < 30 && isRollDown <= 0 ? true : false;
       // console.log(top, isRoll)
       this.articleTop = top;
       this.scrollMenu.isStart = isStart;
@@ -138,8 +155,9 @@ export default {
       background: linear-gradient(135deg, $orange 5%, $lightBlue 100%);
       color: $white;
       font-family: "Verdana, Arial, Helvetica, sans-serif;";
+      position: relative;
       text-align: center;
-      scroll-snap-align: center;
+      // scroll-snap-align: center;
       .name {
         font-size: 35px;
         padding: 30px 0 20px;
@@ -151,6 +169,18 @@ export default {
         font-family: 'Gloria Hallelujah', cursive;
         padding-bottom: 8px;
       }
+      .bgIm {
+        position: absolute;
+        right: 0px;
+        bottom: 0px;
+        @media screen and (max-width: 480px)  {
+          display: none;
+        }
+        img {
+          height: 160px;
+          width: initial;
+        }
+      }
     }
     .menu {
       height: 6vh;
@@ -159,15 +189,20 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
+      z-index: 3;
       div {
+        white-space:nowrap;
         margin: 0 20px;
         font-family: 'Noto Sans SC', sans-serif;
         cursor: pointer;
         position: relative;
+        @media screen and (max-width: 480px)  {
+          margin: 0 10px;
+        }
         &::after {
           content: '';
           position: absolute;
-          bottom: 10px;
+          bottom: 8px;
           left: 0%;
           background-color: $litterWhite;
           width: 100%;
@@ -183,7 +218,7 @@ export default {
     }
     .shart-show {
       box-shadow: 0px 3px 3px .3px $lightGrey;
-      background-color: rgba($color: $white, $alpha: .7);
+      background-color: rgba($color: $white, $alpha: .8);
       position: fixed;
       top: 0px;
       width: 100%;
@@ -201,11 +236,15 @@ export default {
       width: $width;
       margin: 0 auto;
       color: $grey;
+      // position: relative;
       .content {
         padding: 30px;
         margin: 50px 0;
+        @media screen and (max-width: 480px)  {
+          margin: 10px 0;
+        }
         cursor: pointer;
-        scroll-snap-align: center;
+        // scroll-snap-align: center;
         &:hover {
           box-shadow: 1px 2px 5px .4px $orange;
           .read-more a {
@@ -245,15 +284,57 @@ export default {
           }
         }
       }
+      #fixed-right {
+        width: 16vw;
+        top: calc(4vh + 240px);
+        right: 3vw;
+        // top: calc(4vh + 50px);
+        // right: calc(-15vw - 3vw);
+        position: absolute;
+        .recommand {
+          padding: 15px;
+          // border-top: 1px solid $blue;
+          box-shadow: 0px 0px 3px .1px $blue;
+          .recommand-header {
+            border-bottom: 1px solid $grey;
+            padding-bottom: 5px;
+            margin-bottom: 5px;
+          }
+          .recommand-content {
+            display: flex;
+            flex-direction: column;
+          }
+          a {
+            padding: 5px 0;
+            display: inline;
+            // width: 100%;
+          }
+        }
+      }
     }
     footer {
-      height: 15vh;
+      height: 13vh;
       background-color: $greyWhite;
+      color: $otherGrey;
       .footer-container {
+        height: 100%;
         width: $width;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
         margin: 0 auto;
-        .account {
-          // padding
+        .footer-icon {
+          a {
+            color: $otherGrey;
+            &:not(:last-of-type) {
+              padding-right: 20px;
+            }
+            &:nth-of-type(2) {
+              .mail {
+                color: $orange;
+              }
+            }
+          }
         }
       }
     }

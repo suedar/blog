@@ -15,8 +15,15 @@ $greyWhite: #f5f5f5;
 $lightBlue: #5fc3e4;
 $blue: #77cfea;
 
-$width: 800px;
+$width: 55vw;
 
 .icon {
-    width: 10px;
+    width: 16px;
+    vertical-align: text-bottom;
+}
+
+a {
+    color: initial;
+    cursor: pointer;
+    text-decoration: initial;
 }
