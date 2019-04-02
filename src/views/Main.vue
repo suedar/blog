@@ -1,5 +1,5 @@
 <template>
-  <section @wheel="mousemove" class="container">
+  <section @wheel="mousemove" ref="container" class="container">
     <header id="header">
       <div class="name">
         sueder
@@ -39,7 +39,7 @@
           </a>
         </div>
       </div>
-      <div id="fixed-right">
+      <div id="fixed-right" ref="fixed" :style="{top: fixedTop}">
         <div class="recommand">
           <h3 class="recommand-header">推荐</h3>
           <div class="recommand-content">
@@ -50,7 +50,7 @@
         </div>
       </div>
     </div>
-    <footer>
+    <footer ref="footer">
       <div class="footer-container">
         <div class="account">
           @ 2019 | <font-awesome-icon icon="user"></font-awesome-icon> &nbsp;suedar
@@ -107,12 +107,18 @@ export default {
       },
       articleTop: 190,
       showDialog: false,
-      recommand: []
+      recommand: [],
+      staticFixedTop: 0,
+      fixedTop: 'calc(4vh + 240px)'
+      // fixedTop: '200px'
       // isFixMenu: false
     }
   },
   created() {
     this.initConfig();
+  },
+  mounted() {
+    this.staticFixedTop = this.$refs.fixed.offsetTop;
   },
   methods: {
     async initConfig() {
@@ -122,6 +128,10 @@ export default {
       this.recommand = recommand;
     },
     mousemove: _.debounce(function() {
+      this.changeMenu();
+      this.changeRecommand();
+    }, 10),
+    changeMenu() {
       // FIXME: 上滑时因为自动调整而bug问题
       const top = this.$refs.article.getBoundingClientRect().top;
       const articleTop = this.articleTop;
@@ -133,7 +143,25 @@ export default {
       this.articleTop = top;
       this.scrollMenu.isStart = isStart;
       this.scrollMenu.isRoll = isRoll;
-    }, 10)
+    },
+    changeRecommand() {
+      // 好复杂 设置内部滑动
+      const refs = this.$refs;
+      const fixedTop = this.staticFixedTop;
+
+      const fixedHeight = refs.fixed.offsetHeight;
+      const viewHeight = refs.container.clientHeight;
+      const footerHeight = refs.footer.offsetHeight;
+      const footToTop = refs.footer.getBoundingClientRect().top;
+
+      const isTooHeight = fixedHeight + fixedTop + footerHeight > viewHeight;
+      const isButtom = footToTop < viewHeight + 50; // 这个数值可以随机
+
+      const buttomHeight = viewHeight - (footerHeight + 50 + fixedHeight);
+
+      const curTop = isTooHeight && isButtom ? `${buttomHeight}px` : 'calc(4vh + 240px)';
+      this.fixedTop = curTop;
+    }
   }
 }
 </script>
@@ -287,6 +315,8 @@ export default {
       #fixed-right {
         width: 16vw;
         top: calc(4vh + 240px);
+        transition: top 1s;
+        // top: calc(4vh + 240px);
         right: 3vw;
         // top: calc(4vh + 50px);
         // right: calc(-15vw - 3vw);
