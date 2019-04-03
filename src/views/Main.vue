@@ -18,29 +18,34 @@
       </div>
     </header>
     <div id="article" ref="article">
-      <div class="content" v-for="item in article" :key="item.id" :title="item.title">
-        <h2>{{item.title}}</h2>
-        <div class="tip">
-          <font-awesome-icon icon="calendar-alt"></font-awesome-icon>
-          Posted on {{item.createTime}}
-          <span class="line">|</span>
-          热度: {{item.temperature}}℃
-          <span class="line">|</span>
-          字数统计: {{item.count}} 字
-          <span class="line">|</span>
-          阅读时长: {{item.readTime}} 分钟
-        </div>
-        <div class="brief">
-          {{item.content}}
-        </div>
-        <div class="read-more">
-          <a>
-            Read more »
-          </a>
+      <div id="fixed-left">
+        &nbsp;
+      </div>
+      <div id="article-content">
+        <div class="content" v-for="item in article" :key="item.id" :title="item.title">
+          <h2>{{item.title}}</h2>
+          <div class="tip">
+            <font-awesome-icon icon="calendar-alt"></font-awesome-icon>
+            Posted on {{item.createTime}}
+            <span class="line">|</span>
+            热度: {{item.temperature}}℃
+            <span class="line">|</span>
+            字数统计: {{item.count}} 字
+            <span class="line">|</span>
+            阅读时长: {{item.readTime}} 分钟
+          </div>
+          <div class="brief">
+            {{item.content}}
+          </div>
+          <div class="read-more">
+            <a>
+              Read more »
+            </a>
+          </div>
         </div>
       </div>
-      <div id="fixed-right" ref="fixed" :style="{top: fixedTop}">
-        <div class="recommand">
+      <div id="fixed-right">
+        <div class="recommand" ref="fixed" :style="{top: fixedTop}">
           <h3 class="recommand-header">推荐</h3>
           <div class="recommand-content">
             <a v-for="item in recommand" :key="item.id" :href="item.link" target="_blank">
@@ -146,6 +151,7 @@ export default {
     },
     changeRecommand() {
       // 好复杂 设置内部滑动
+      // 限制不能滑太高
       const refs = this.$refs;
       const fixedTop = this.staticFixedTop;
 
@@ -154,11 +160,10 @@ export default {
       const footerHeight = refs.footer.offsetHeight;
       const footToTop = refs.footer.getBoundingClientRect().top;
 
-      const isTooHeight = fixedHeight + fixedTop + footerHeight > viewHeight;
-      const isButtom = footToTop < viewHeight + 50; // 这个数值可以随机
+      const isTooHeight = fixedHeight + fixedTop + footerHeight + 50 > viewHeight;
+      const isButtom = footToTop < viewHeight + 1500; // 这个数值可以随机
 
       const buttomHeight = viewHeight - (footerHeight + 50 + fixedHeight);
-
       const curTop = isTooHeight && isButtom ? `${buttomHeight}px` : 'calc(4vh + 240px)';
       this.fixedTop = curTop;
     }
@@ -261,10 +266,21 @@ export default {
     }
     #article {
       padding-top: 4vh;
-      width: $width;
-      margin: 0 auto;
+      // width: $width;
+      // margin: 0 auto;
       color: $grey;
+      display: flex;
+      justify-content: space-evenly;
       // position: relative;
+      #fixed-left {
+        flex: 1;
+      }
+      #article-content {
+        flex: 3;
+      }
+      #fixed-right {
+        flex: 1;
+      }
       .content {
         padding: 30px;
         margin: 50px 0;
@@ -313,15 +329,18 @@ export default {
         }
       }
       #fixed-right {
-        width: 16vw;
-        top: calc(4vh + 240px);
-        transition: top 1s;
-        // top: calc(4vh + 240px);
-        right: 3vw;
-        // top: calc(4vh + 50px);
-        // right: calc(-15vw - 3vw);
-        position: absolute;
         .recommand {
+          width: 13vw;
+          margin: 0 auto;
+          // top: 
+          top: calc(4vh + 240px);
+          transition: top 1s;
+          // top: calc(4vh + 240px);
+          // right: 4vw;
+          // top: calc(4vh + 50px);
+          // right: calc(-15vw - 3vw);
+          // position: absolute;
+          position: sticky;
           padding: 15px;
           // border-top: 1px solid $blue;
           box-shadow: 0px 0px 3px .1px $blue;
