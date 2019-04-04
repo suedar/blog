@@ -1,8 +1,8 @@
 <template>
   <section @scroll="mousemove" ref="container" class="container">
-    <header id="header">
+    <header ref="header" id="header">
       <div class="name">
-        sueder
+        suedar
       </div>
       <div class="motto">
         🍋 Welcome to my world! 🍋
@@ -10,8 +10,11 @@
       <div class="bgIm">
         <img src="../assets/img/rick.svg" alt="">
       </div>
-      <div class="menu" :class="{'shart-show': scrollMenu.isStart, 'on-show': scrollMenu.isRoll}">
-        <div v-for="item in menu" :key="item.id">
+      <div
+        class="menu"
+        :class="{'shart-show': scrollMenu.isStart, 'on-show': scrollMenu.isRoll}"
+        @click="changeContent">
+        <div v-for="item in menu" :key="item.id" :data-path="item.path">
           <font-awesome-icon :icon="item.icon"></font-awesome-icon>
           {{item.text}}
         </div>
@@ -64,6 +67,10 @@ export default {
           text: '目录',
           path: 'menu'
         }, {
+          icon: 'tags',
+          text: '标签',
+          path: 'label'
+        }, {
           icon: 'link',
           text: '前端在线资源',
           path: 'link'
@@ -77,13 +84,7 @@ export default {
         isRoll: false
       },
       showDialog: false,
-      // footer
-      // footer: {
-      //   height: 0,
-      //   toTop: 0
-      // }      
-      // fixedTop: '200px'
-      // isFixMenu: false
+      headerTop: 0
     }
   },
   mounted() {
@@ -98,7 +99,6 @@ export default {
     mousemove: _.debounce(function() {
       this.changeMenu();
       this.getFooterToTop();
-      // this.changeRecommand();
     }, 10),
     getFooterToTop() {
       const footerToTop = this.$refs.footer.getBoundingClientRect().top;
@@ -106,16 +106,21 @@ export default {
     },
     changeMenu() {
       // FIXME: 上滑时因为自动调整而bug问题
-      const top = this.$refs.article.getBoundingClientRect().top;
-      const articleTop = this.articleTop;
-      const isRollDown = top - articleTop;
-      // console.log(isRollDown);
-      const isStart = top < 30 ? true : false;
-      const isRoll = top < 30 && isRollDown <= 0 ? true : false;
-      // console.log(top, isRoll)
-      this.articleTop = top;
+      const top = this.$refs.header.getBoundingClientRect().top;
+      const headerTop = this.headerTop;
+      const isRollDown = top - headerTop;
+      const isStart = top < -160 ? true : false;
+      const isRoll = top < -160 && isRollDown <= 0 ? true : false;
+      this.headerTop = top;
       this.scrollMenu.isStart = isStart;
       this.scrollMenu.isRoll = isRoll;
+    },
+    changeContent(e) {
+      // 事件委托
+      e.preventDefault();
+      const target = e.target || e.srcElement;
+      const path = target.dataset.path ? target.dataset.path : {name: 'main'};
+      this.$router.push(path);
     }
   }
 }
@@ -140,7 +145,7 @@ export default {
       font-family: "Verdana, Arial, Helvetica, sans-serif;";
       position: relative;
       text-align: center;
-      // scroll-snap-align: center;
+      scroll-snap-align: center;
       .name {
         font-size: 35px;
         padding: 30px 0 20px;
@@ -156,7 +161,7 @@ export default {
         position: absolute;
         right: 0px;
         bottom: 0px;
-        @media screen and (max-width: 480px)  {
+        @media screen and (max-width: 757px)  {
           display: none;
         }
         img {
@@ -214,7 +219,6 @@ export default {
     .on-show {
       transform: translateY(0);
     }
-    
     footer {
       height: 13vh;
       background-color: $greyWhite;
