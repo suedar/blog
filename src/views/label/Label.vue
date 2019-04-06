@@ -1,17 +1,17 @@
 <template>
-    <Model :hasRight="true" class="menu-content">
+    <Model :hasRight="true" class="label-content">
         <template v-slot:content>
             <div class="content">
                 <div class="text">
                     <span class="dot">●</span>
                     🐾 🐾🐾 这块地方 一共有{{length}}篇文章 🎉 🎉 🎉
                 </div>
-                <div class="menu-item" v-for="item in year" :key="item.id">
+                <div class="label-item" v-for="item in year" :key="item.id">
                     <div class="year">
                         <span :id="item" class="dot">●</span>
                         {{item}}
                     </div>
-                    <div class="year-item" v-for="menuItem in menu[item]" :key="menuItem.id">
+                    <div class="year-item" v-for="menuItem in label[item]" :key="menuItem.id">
                         <span class="dot">●</span>
                         <span class="date">
                             {{menuItem.date}}
@@ -48,7 +48,7 @@ import Model from '../model/Model.vue';
 export default {
     data() {
         return {
-            menu: {},
+            label: {},
             year: [],
             length: 0,
             emoji: []
@@ -62,8 +62,8 @@ export default {
     },
     methods: {
         async initConfig() {
-            const menu = await getAllMenu();
-            const curMenu = menu.map(item => {
+            const label = await getAllMenu();
+            const curMenu = label.map(item => {
                 const arr = item.date.split('-');
                 const year = arr.shift();
                 const date = arr.join('-');
@@ -86,7 +86,7 @@ export default {
             })
             console.log(obj);
             this.year = year;
-            this.menu = obj;
+            this.label = obj;
         },
         initEmoji() {
             const year = this.year;
@@ -98,7 +98,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.menu-content {
+.label-content {
     .content {
         margin-top: 3vh;
         margin-bottom: 5vh;

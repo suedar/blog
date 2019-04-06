@@ -20,7 +20,10 @@
         </div>
       </div>
     </header>
-    <router-view></router-view>
+    <!-- <router-view></router-view> -->
+    <keep-alive>
+      <component :is="content"></component>
+    </keep-alive>
     <footer ref="footer">
       <div class="footer-container">
         <div class="account">
@@ -50,6 +53,9 @@ import _ from 'underscore';
 import {mapMutations} from 'vuex';
 
 import alipay from './alipay';
+import Main from './content/Main';
+import Menu from './menu/Menu';
+// import Menu from './menu/Menu';
 
 export default {
   components: {
@@ -84,12 +90,16 @@ export default {
         isRoll: false
       },
       showDialog: false,
-      headerTop: 0
+      headerTop: 0,
+      content: Main
     }
   },
   mounted() {
     const footerHeight = this.$refs.footer.offsetHeight;
     this.CHANGE_FOOTER_HEIGHT(footerHeight);
+  },
+  created() {
+    this.changeComponents();
   },
   methods: {
     ...mapMutations([
@@ -119,8 +129,18 @@ export default {
       // 事件委托
       e.preventDefault();
       const target = e.target || e.srcElement;
-      const path = target.dataset.path ? target.dataset.path : {name: 'main'};
-      this.$router.push(path);
+      const path = target.dataset.path;
+      const toPath = path ? path : {name: 'main'};
+      this.$router.push(toPath);
+      this.changeComponents(path);
+    },
+    changeComponents(path = this.$route.name) {
+      if (path === '') {
+        this.content = Main;
+      }
+      else if (path === 'menu') {
+        this.content = Menu;
+      }
     }
   }
 }
@@ -145,7 +165,7 @@ export default {
       font-family: "Verdana, Arial, Helvetica, sans-serif;";
       position: relative;
       text-align: center;
-      scroll-snap-align: center;
+      // scroll-snap-align: center;
       .name {
         font-size: 35px;
         padding: 30px 0 20px;

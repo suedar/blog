@@ -1,5 +1,5 @@
 <template>
-    <Model class="main">
+    <Model :hasRight="true" class="main">
         <template v-slot:content>
           <div class="content" v-for="item in article" :key="item.id" :title="item.title">
             <h2>{{item.title}}</h2>
@@ -44,7 +44,7 @@ import _ from 'underscore';
 import { getBrief, getRecommand } from '@/api/';
 import { mapState } from 'vuex';
 
-import Model from '../model/model.vue';
+import Model from '../model/Model.vue';
 
 export default {
     data() {
@@ -83,7 +83,7 @@ export default {
       margin: 10px 0;
     }
     cursor: pointer;
-    scroll-snap-align: center;
+    // scroll-snap-align: center;
     &:hover {
       box-shadow: 1px 2px 5px .4px $orange;
       .read-more a {

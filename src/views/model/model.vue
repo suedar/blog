@@ -7,15 +7,20 @@
         <slot name="content"></slot>
       </div>
       <div id="fixed-right">
-        <div class="sum" ref="fixed" :style="{top: fixedTop}">
-          <div class="tag"></div>
-          <h3 class="sum-header">
-            <slot name="sum-header"></slot>
-          </h3>
-          <div class="sum-content">
-            <slot name="sum-content"></slot>
+        <template v-if="hasRight">
+          <div  class="sum" ref="fixed" :style="{top: fixedTop}">
+            <div class="tag"></div>
+            <h3 class="sum-header">
+              <slot name="sum-header"></slot>
+            </h3>
+            <div class="sum-content">
+              <slot name="sum-content"></slot>
+            </div>
           </div>
-        </div>
+        </template>
+        <template v-else>
+
+        </template>
       </div>
     </div>
 </template>
@@ -26,6 +31,9 @@ import _ from 'underscore';
 import { mapState } from 'vuex';
 
 export default {
+    props: {
+      hasRight: Boolean
+    },
     data() {
         return {
             fixedTop: 'calc(4vh + 240px)',
@@ -46,7 +54,7 @@ export default {
     created() {
     },
     updated() {
-      if (!this.calcHeight.fixedTop) {
+      if (!this.calcHeight.fixedTop && this.hasRight) {
         const ref = this.$refs;
         const calcHeight = {
           fixedTop: ref.fixed.offsetTop,
