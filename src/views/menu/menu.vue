@@ -1,5 +1,5 @@
 <template>
-    <Model :hasRight="true" class="menu-content">
+    <Model fixedColor="#bcdeee" :hasRight="true" class="menu-content">
         <template v-slot:content>
             <div class="content">
                 <div class="text">
@@ -43,6 +43,8 @@
 import * as EMOJI from 'node-emoji';
 
 import {getAllMenu} from '@/api/'
+import getSMenu from '@/common/js/getSMenu';
+
 import Model from '../model/Model.vue';
 
 export default {
@@ -57,12 +59,13 @@ export default {
     components: {
         Model
     },
+    mixins: [getSMenu],
     created() {
         this.initConfig();
     },
     methods: {
         async initConfig() {
-            const menu = await getAllMenu();
+            const menu = await this.getSMenu();
             const curMenu = menu.map(item => {
                 const arr = item.date.split('-');
                 const year = arr.shift();
@@ -84,7 +87,6 @@ export default {
             year.forEach(item => {
                 obj[item] = arr.filter(arrItem => arrItem.year === item);
             })
-            console.log(obj);
             this.year = year;
             this.menu = obj;
         },

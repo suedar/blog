@@ -9,7 +9,7 @@
       <div id="fixed-right">
         <template v-if="hasRight">
           <div  class="sum" ref="fixed" :style="{top: fixedTop}">
-            <div class="tag"></div>
+            <div class="tag" :style="{background: fixedColor}"></div>
             <h3 class="sum-header">
               <slot name="sum-header"></slot>
             </h3>
@@ -32,7 +32,8 @@ import { mapState } from 'vuex';
 
 export default {
     props: {
-      hasRight: Boolean
+      hasRight: Boolean,
+      fixedColor: String
     },
     data() {
         return {

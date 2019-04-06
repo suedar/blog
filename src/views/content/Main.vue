@@ -1,5 +1,5 @@
 <template>
-    <Model :hasRight="true" class="main">
+    <Model fixedColor="red" :hasRight="true" class="main">
         <template v-slot:content>
           <div class="content" v-for="item in article" :key="item.id" :title="item.title">
             <h2>{{item.title}}</h2>

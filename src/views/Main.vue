@@ -55,7 +55,7 @@ import {mapMutations} from 'vuex';
 import alipay from './alipay';
 import Main from './content/Main';
 import Menu from './menu/Menu';
-// import Menu from './menu/Menu';
+import Label from './label/Label';
 
 export default {
   components: {
@@ -135,12 +135,17 @@ export default {
       this.changeComponents(path);
     },
     changeComponents(path = this.$route.name) {
+      let content = Main;
       if (path === '') {
-        this.content = Main;
+        // this.content = Main;
       }
       else if (path === 'menu') {
-        this.content = Menu;
+        content = Menu;
       }
+      else if (path === 'label') {
+        content = Label;
+      }
+      this.content = content;
     }
   }
 }

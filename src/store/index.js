@@ -9,7 +9,8 @@ const state = {
     footer: {
         height: 0,
         toTop: 0
-    }
+    },
+    sMenu: []
 }
 
 export default new Vuex.Store({
