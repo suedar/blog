@@ -2,7 +2,8 @@ import {
     CHANGE_FOOTER_HEIGHT,
     CHANGE_FOOTER_TO_TOP,
     CHANGE_S_MENU,
-    CHANGE_S_RECOMMAND
+    CHANGE_S_RECOMMAND,
+    CHANGE_ID
 } from './mutation-types';
 
 export default {
@@ -17,5 +18,8 @@ export default {
     },
     [CHANGE_S_RECOMMAND](state, sRecommand) {
         state.sRecommand = sRecommand;
+    },
+    [CHANGE_ID](state, id) {
+        state.id = id;
     }
 }

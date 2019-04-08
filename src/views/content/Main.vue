@@ -6,7 +6,7 @@
             v-for="item in article"
             :key="item.id"
             :title="item.title"
-            @click="read(item)">
+            @click="read(item.id)">
             <h2>{{item.title}}</h2>
             <div class="tip">
               <font-awesome-icon icon="calendar-alt"></font-awesome-icon>
@@ -47,7 +47,7 @@
 import _ from 'underscore';
 
 import { getBrief } from '@/api/';
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 
 import getSRecommand from '@/common/js/getSRecommand'
 import Model from '../model/Model.vue';
@@ -71,16 +71,20 @@ export default {
       this.initConfig();
     },
     methods: {
-        async initConfig() {
-          const article = await getBrief({pageNum: 0, pageSie: 10});
-          const recommand = await this.getSRecommand();
-          const sliceRecommand = recommand.slice(0, 10);
-          this.article = article;
-          this.recommand = sliceRecommand;
-        },
-        read(item) {
-          console.log(item)
-        }
+      ...mapMutations([
+        'CHANGE_ID'
+      ]),
+      async initConfig() {
+        const article = await getBrief({pageNum: 0, pageSie: 10});
+        const recommand = await this.getSRecommand();
+        const sliceRecommand = recommand.slice(0, 10);
+        this.article = article;
+        this.recommand = sliceRecommand;
+      },
+      read(id) {
+        this.CHANGE_ID(id);
+        this.$router.push('read');
+      }
     }
 }
 </script>

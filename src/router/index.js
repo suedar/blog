@@ -20,27 +20,27 @@ export default new Router({
             name: 'main'
         }, {
             component: Menu,
-            path: '/menu',
+            path: 'menu',
             name: 'menu'
         }, {
             component: Label,
-            path: '/label',
+            path: 'label',
             name: 'label'
         }, {
             component: Link,
-            path: '/link',
+            path: 'link',
             name: 'link'
         }, {
             component: About,
-            path: '/about',
+            path: 'about',
             name: 'about'
-        }, {
-            component: Read,
-            path: '/read',
-            name: 'read'
-        }, {
-            redirect: { name: 'main' },
-            path: '*',
         }]
+    }, {
+        component: Read,
+        path: 'read',
+        name: 'read'
+    }, {
+        redirect: { name: 'main' },
+        path: '*',
     }]
 })

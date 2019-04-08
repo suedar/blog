@@ -11,7 +11,8 @@ const state = {
         toTop: 0
     },
     sMenu: [],
-    sRecommand: []
+    sRecommand: [],
+    id: 0
 }
 
 export default new Vuex.Store({
