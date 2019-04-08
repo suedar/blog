@@ -1,7 +1,12 @@
 <template>
     <Model fixedColor="red" :hasRight="true" class="main">
         <template v-slot:content>
-          <div class="content" v-for="item in article" :key="item.id" :title="item.title">
+          <div
+            class="content"
+            v-for="item in article"
+            :key="item.id"
+            :title="item.title"
+            @click="read(item)">
             <h2>{{item.title}}</h2>
             <div class="tip">
               <font-awesome-icon icon="calendar-alt"></font-awesome-icon>
@@ -41,9 +46,10 @@
 <script>
 import _ from 'underscore';
 
-import { getBrief, getRecommand } from '@/api/';
+import { getBrief } from '@/api/';
 import { mapState } from 'vuex';
 
+import getSRecommand from '@/common/js/getSRecommand'
 import Model from '../model/Model.vue';
 
 export default {
@@ -56,6 +62,7 @@ export default {
     components: {
       Model
     },
+    mixins: [getSRecommand],
     computed: {
       displayLabel(arr) {
       }
@@ -66,9 +73,13 @@ export default {
     methods: {
         async initConfig() {
           const article = await getBrief({pageNum: 0, pageSie: 10});
-          const recommand = await getRecommand({pageNum: 0, pageSie: 10});
+          const recommand = await this.getSRecommand();
+          const sliceRecommand = recommand.slice(0, 10);
           this.article = article;
-          this.recommand = recommand;
+          this.recommand = sliceRecommand;
+        },
+        read(item) {
+          console.log(item)
         }
     }
 }

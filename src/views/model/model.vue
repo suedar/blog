@@ -1,5 +1,5 @@
 <template>
-    <div @wheel="mousemove" id="model" ref="model">
+    <div :style="{background: bgColor}" @wheel="mousemove" id="model" ref="model">
       <div id="fixed-left">
         <slot name="header">&nbsp;</slot>
       </div>
@@ -33,7 +33,8 @@ import { mapState } from 'vuex';
 export default {
     props: {
       hasRight: Boolean,
-      fixedColor: String
+      fixedColor: String,
+      bgColor: String,
     },
     data() {
         return {

@@ -1,7 +1,8 @@
 import {
     CHANGE_FOOTER_HEIGHT,
     CHANGE_FOOTER_TO_TOP,
-    CHANGE_S_MENU
+    CHANGE_S_MENU,
+    CHANGE_S_RECOMMAND
 } from './mutation-types';
 
 export default {
@@ -13,5 +14,8 @@ export default {
     },
     [CHANGE_S_MENU](state, sMenu) {
         state.sMenu = sMenu;
+    },
+    [CHANGE_S_RECOMMAND](state, sRecommand) {
+        state.sRecommand = sRecommand;
     }
 }

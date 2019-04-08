@@ -92,7 +92,7 @@ export default {
         },
         initEmoji() {
             const year = this.year;
-            const emoji = year.map(item => EMOJI.random().emoji);
+            const emoji = year.map(() => EMOJI.random().emoji);
             this.emoji = emoji;
         },
     }

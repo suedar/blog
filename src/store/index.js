@@ -10,7 +10,8 @@ const state = {
         height: 0,
         toTop: 0
     },
-    sMenu: []
+    sMenu: [],
+    sRecommand: []
 }
 
 export default new Vuex.Store({

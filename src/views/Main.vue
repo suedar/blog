@@ -56,6 +56,8 @@ import alipay from './alipay';
 import Main from './content/Main';
 import Menu from './menu/Menu';
 import Label from './label/Label';
+import Link from './link/Link';
+import About from './about/About';
 
 export default {
   components: {
@@ -63,7 +65,6 @@ export default {
   },
   data() {
     return {
-      // menu: ['主页', '目录', '前端在线资源', '关于'],
       menu: [{
           icon: 'home',
           text: '主页',
@@ -144,6 +145,12 @@ export default {
       }
       else if (path === 'label') {
         content = Label;
+      }
+      else if (path === 'link') {
+        content = Link;
+      }
+      else if (path === 'about') {
+        content = About;
       }
       this.content = content;
     }

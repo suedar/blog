@@ -77,7 +77,7 @@ export default {
         },
         initEmoji() {
             const labelSort = this.labelSort;
-            const emoji = labelSort.map(item => EMOJI.random().emoji);
+            const emoji = labelSort.map(() => EMOJI.random().emoji);
             this.emoji = emoji;
         },
     }
