@@ -144,6 +144,7 @@ export default {
         a {
             margin: 0 auto;
             padding: 5px 0;
+            white-space: nowrap;
             &:first-of-type {
                 padding-top: 10px;
             }

@@ -83,7 +83,7 @@ export default {
       },
       read(id) {
         this.CHANGE_ID(id);
-        this.$router.push('read');
+        this.$router.push({name: 'read'});
       }
     }
 }

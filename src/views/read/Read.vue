@@ -8,12 +8,13 @@
 import { mapState } from 'vuex';
 
 export default {
+    name: 'read',
     data() {
         return {
         }
     },
     created() {
-        console.log(this.id);
+        // console.log(this.id);
     },
     computed: {
         ...mapState([

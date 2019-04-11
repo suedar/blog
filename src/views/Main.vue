@@ -1,6 +1,6 @@
 <template>
   <section @scroll="mousemove" ref="container" class="container">
-    <header ref="header" id="header">
+    <header ref="header" class="main-header read">
       <div class="name">
         suedar
       </div>
@@ -20,8 +20,7 @@
         </div>
       </div>
     </header>
-    <!-- <router-view></router-view> -->
-    <keep-alive>
+    <keep-alive exclude="read">
       <component :is="content"></component>
     </keep-alive>
     <footer ref="footer">
@@ -92,7 +91,8 @@ export default {
       },
       showDialog: false,
       headerTop: 0,
-      content: Main
+      content: Main,
+      isReading: false
     }
   },
   mounted() {
@@ -169,7 +169,7 @@ export default {
     overflow-y: scroll;
     scroll-behavior: smooth;
     scroll-snap-type: y mandatory;
-    #header {
+    .main-header {
       height: 190px;
       box-shadow: 0px 3px 3px .3px $lightGrey;
       background: linear-gradient(135deg, $orange 5%, $lightBlue 100%);
@@ -201,6 +201,9 @@ export default {
           width: initial;
         }
       }
+    }
+    .read {
+      // height: 6vh;
     }
     .menu {
       height: 6vh;
