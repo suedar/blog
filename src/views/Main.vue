@@ -1,6 +1,6 @@
 <template>
   <section @scroll="mousemove" ref="container" class="container">
-    <header ref="header" class="main-header read">
+    <header ref="header" class="main-header" :class="{read: isReading}">
       <div class="name">
         suedar
       </div>
@@ -57,6 +57,7 @@ import Menu from './menu/Menu';
 import Label from './label/Label';
 import Link from './link/Link';
 import About from './about/About';
+import Read from './read/Read';
 
 export default {
   components: {
@@ -101,6 +102,7 @@ export default {
   },
   created() {
     this.changeComponents();
+    this.readAnimation(this.$route.name);
   },
   methods: {
     ...mapMutations([
@@ -108,7 +110,9 @@ export default {
       'CHANGE_FOOTER_TO_TOP'
     ]),
     mousemove: _.debounce(function() {
-      this.changeMenu();
+      if (this.$route.name !== 'read') {
+        this.changeMenu();
+      }
       this.getFooterToTop();
     }, 10),
     getFooterToTop() {
@@ -152,7 +156,18 @@ export default {
       else if (path === 'about') {
         content = About;
       }
+      else if (path === 'read') {
+        content = Read;
+      }
       this.content = content;
+    },
+    readAnimation(name) {
+      this.isReading = name === 'read' ? true : false;
+    }
+  },
+  watch: {
+    $route(route) {
+      this.readAnimation(route.name);
     }
   }
 }
@@ -183,11 +198,15 @@ export default {
         padding: 30px 0 20px;
         font-weight: bold;
         font-family: 'Maven Pro', sans-serif;
+        // transform: translate(0);
         // font-family: 'Kaushan Script', cursive;
       }
       .motto {
         font-family: 'Gloria Hallelujah', cursive;
         padding-bottom: 8px;
+      }
+      .menu {
+        // transform: translate(0);
       }
       .bgIm {
         position: absolute;
@@ -203,7 +222,44 @@ export default {
       }
     }
     .read {
-      // height: 6vh;
+      transition: all .7s ease-in;
+      > div {
+        transition: all .7s ease-in;
+      }
+      height: 6vh;
+      // display: flex;
+      // padding: 0 13vw;
+      // align-items: center;
+      // justify-content: space-between;
+      .name {
+        padding: 0px;
+        font-size: 20px;
+        // transform: translate(-100%);
+        // animation: name-move .1s linear forwards;
+        transform: translate(-37%, 42%);
+      }
+      @keyframes name-move {
+        from {
+          transform: translate(0);
+        }
+        to {
+          transform: translate(-50%, 38%);
+        }
+      }
+      .motto {
+        opacity: 0;
+        // display: none;
+      }
+      .bgIm {
+        opacity: 0;
+        // display: none;
+      }
+      .menu {
+        transform: translate(23%, -129%);
+        font-size: 14px;
+        color: $greyWhite;
+        // animation: changeColor .1s linear forwards;
+      }
     }
     .menu {
       height: 6vh;
@@ -232,7 +288,7 @@ export default {
           height: 1px;
           margin: 0 auto;
           transform: scale(0);
-          transition: all .8s;
+          transition: transform .8s;
         }
         &:hover::after {
           transform: scale(1);
@@ -245,7 +301,7 @@ export default {
       position: fixed;
       top: 0px;
       width: 100%;
-      transition: all 1s;
+      transition: transform 1s;
       transform: translateY(-100%);
       div::after {
         background-color: $blue;

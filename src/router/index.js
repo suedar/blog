@@ -34,13 +34,13 @@ export default new Router({
             component: About,
             path: 'about',
             name: 'about'
+        }, {
+            component: Read,
+            path: 'read',
+            name: 'read'
+        }, {
+            redirect: { name: 'main' },
+            path: '*',
         }]
-    }, {
-        component: Read,
-        path: 'read',
-        name: 'read'
-    }, {
-        redirect: { name: 'main' },
-        path: '*',
     }]
 })

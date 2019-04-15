@@ -1,5 +1,6 @@
 <template>
-    <div class="read">
+    <div class="read-container" v-html="article">
+
     </div>
 </template>
 
@@ -7,23 +8,33 @@
 
 import { mapState } from 'vuex';
 
+import { getArticleDetail } from '@/api/';
+
 export default {
     name: 'read',
     data() {
         return {
+            article: ''
         }
     },
     created() {
-        // console.log(this.id);
+        this.queryArticle();
     },
     computed: {
         ...mapState([
             'id'
         ])
+    },
+    methods: {
+        async queryArticle() {
+            this.article = await getArticleDetail(this.id);
+        }
     }
 }
 </script>
 
-<style>
-
+<style lang="scss">
+    .read-container {
+        height: 100vh;
+    }
 </style>

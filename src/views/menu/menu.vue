@@ -126,6 +126,17 @@ export default {
             top: 10px;
             background-color: white;
             z-index: 2;
+            &::after {
+                content: '';
+                width: 90%;
+                height: 120px;
+                position: absolute;
+                left: 30px;
+                top: 50%;
+                transform: translateY(-50%);
+                // background-color: white;
+                z-index: 1;
+            }
         }
         .year-item {
             border-bottom: 1px dashed $grey;
