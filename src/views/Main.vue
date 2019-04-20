@@ -180,6 +180,7 @@ export default {
   }
   .container {
     height: 100vh;
+    position: relative;
     overflow: hidden;
     overflow-y: scroll;
     scroll-behavior: smooth;
@@ -311,6 +312,9 @@ export default {
       transform: translateY(0);
     }
     footer {
+      position: absolute;
+      width: 100vw;
+      bottom: 0px;
       height: 13vh;
       background-color: $greyWhite;
       color: $otherGrey;
