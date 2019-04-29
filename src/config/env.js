@@ -3,7 +3,7 @@
  * @author: sunchao
  * @Date: 2019-04-01 12:42:44
  * @Last Modified by: sunchao15
- * @Last Modified time: 2019-04-01 12:43:39
+ * @Last Modified time: 2019-04-23 10:23:40
  */
 
 /**
@@ -20,7 +20,8 @@ let imgBaseUrl = '';
 
 
 if (process.env.NODE_ENV === 'development') {
-    baseUrl = 'http://yapi.demo.qunar.com/mock/64011';
+	// baseUrl = 'http://yapi.demo.qunar.com/mock/64011';
+	baseUrl = "https://www.easy-mock.com/mock/5cbe744bf5d7db5ffebc9ab0/blog";
 
 } else if (process.env.NODE_ENV === 'production') {
 	baseUrl = '//elm.cangdu.org';

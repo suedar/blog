@@ -103,6 +103,14 @@ export default {
   #fixed-right {
     flex: 1;
   }
+  @media screen and (max-width: 800px) {
+    #fixed-left {
+      display: none;
+    }
+    #fixed-right {
+      display: none;
+    }
+  }
   #fixed-right {
     .sum {
       width: 13vw;
@@ -130,6 +138,15 @@ export default {
       .sum-content {
         display: flex;
         flex-direction: column;
+        a {
+          font-size: 14px;
+          color: $otherGrey;
+        }
+        // a {
+        //   color: $otherGrey;
+        //   // height: 25px;
+        //   // border-bottom: .7px solid $otherGrey;
+        // }
       }
     }
   }

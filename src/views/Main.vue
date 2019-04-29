@@ -47,9 +47,12 @@
     <alipay v-if="showDialog" v-model="showDialog"></alipay>
   </section>
 </template>
+
 <script>
+
 import _ from 'underscore';
-import {mapMutations} from 'vuex';
+
+import { mapMutations } from 'vuex';
 
 import alipay from './alipay';
 import Main from './content/Main';
@@ -208,6 +211,9 @@ export default {
       }
       .menu {
         // transform: translate(0);
+        @media screen and (max-width: 800px) {
+          font-size: 10px;
+        }
       }
       .bgIm {
         position: absolute;
@@ -259,6 +265,7 @@ export default {
         transform: translate(23%, -129%);
         font-size: 14px;
         color: $greyWhite;
+        
         // animation: changeColor .1s linear forwards;
       }
     }
@@ -312,9 +319,9 @@ export default {
       transform: translateY(0);
     }
     footer {
-      position: absolute;
+      // position: absolute;
       width: 100vw;
-      bottom: 0px;
+      // bottom: 0px;
       height: 13vh;
       background-color: $greyWhite;
       color: $otherGrey;
@@ -325,6 +332,11 @@ export default {
         flex-direction: column;
         justify-content: space-evenly;
         margin: 0 auto;
+        @media screen and (max-width: 800px) {
+          margin: 0;
+          width: 100%;
+          padding: 0 30px;
+        }
         .footer-icon {
           a {
             color: $otherGrey;

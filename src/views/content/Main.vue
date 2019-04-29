@@ -1,5 +1,5 @@
 <template>
-    <Model fixedColor="red" :hasRight="true" class="main">
+    <Model fixedColor="#c11e4b" :hasRight="true" class="main">
         <template v-slot:content>
           <div
             class="content"
@@ -84,6 +84,7 @@ export default {
       read(id) {
         this.CHANGE_ID(id);
         this.$router.push({name: 'read'});
+        this.$parent.changeComponents();
       }
     }
 }
