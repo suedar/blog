@@ -265,7 +265,6 @@ export default {
         transform: translate(23%, -129%);
         font-size: 14px;
         color: $greyWhite;
-        
         // animation: changeColor .1s linear forwards;
       }
     }
