@@ -113,9 +113,7 @@ export default {
       'CHANGE_FOOTER_TO_TOP'
     ]),
     mousemove: _.debounce(function() {
-      if (this.$route.name !== 'read') {
-        this.changeMenu();
-      }
+      this.changeMenu();
       this.getFooterToTop();
     }, 10),
     getFooterToTop() {
@@ -127,9 +125,10 @@ export default {
       const top = this.$refs.header.getBoundingClientRect().top;
       const headerTop = this.headerTop;
       const isRollDown = top - headerTop;
-      const isStart = top < -160 ? true : false;
-      const isRoll = top < -160 && isRollDown <= 0 ? true : false;
-      this.headerTop = top;
+      const notRead = this.$route.name !== 'read' ? true : false; // 不是read
+      const isStart = top < -160 && notRead ? true : false;
+      const isRoll = top < -160 && isRollDown <= 0 && notRead ? true : false;
+      this.headerTop = top; // 纪录上次位置
       this.scrollMenu.isStart = isStart;
       this.scrollMenu.isRoll = isRoll;
     },
@@ -165,7 +164,16 @@ export default {
       this.content = content;
     },
     readAnimation(name) {
-      this.isReading = name === 'read' ? true : false;
+      this.scrollMenu.isStart = false;
+      this.scrollMenu.isRoll = false;
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      });
+      setTimeout(() => {
+        this.isReading = name === 'read' ? true : false;
+      }, 30);
     }
   },
   watch: {
@@ -243,7 +251,7 @@ export default {
         font-size: 20px;
         // transform: translate(-100%);
         // animation: name-move .1s linear forwards;
-        transform: translate(-37%, 42%);
+        transform: translate(-37%, 36%);
       }
       @keyframes name-move {
         from {
@@ -262,7 +270,7 @@ export default {
         // display: none;
       }
       .menu {
-        transform: translate(23%, -129%);
+        transform: translate(23%, -146%);
         font-size: 14px;
         color: $greyWhite;
         // animation: changeColor .1s linear forwards;

@@ -10,17 +10,17 @@
             <h2>{{item.title}}</h2>
             <div class="tip">
               <font-awesome-icon icon="calendar-alt"></font-awesome-icon>
-              Posted on {{item.createTime}}
+              Posted on {{item.created}}
               <span class="line">|</span>
               热度: {{item.temperature}}℃
               <span class="line">|</span>
-              字数统计: {{item.count}} 字
+              字数统计: {{item.readCount}} 字
               <span class="line">|</span>
               阅读时长: {{item.readTime}} 分钟
             </div>
-            <div class="label">
+            <div class="label" v-if="item.labelList && item.labelList.length > 0">
               <span class="line">|</span>
-              标签: {{item.label.join('、')}}
+              标签: {{item.labelList.join('、')}}
             </div>
             <div class="brief">
               {{item.content}}
@@ -47,43 +47,54 @@
 import _ from 'underscore';
 
 import { getBrief } from '@/api/';
-import { mapState, mapMutations } from 'vuex';
 
-import getSRecommand from '@/common/js/getSRecommand'
+import getSRecommand from '@/common/js/getSRecommand';
+import getArticleList from '@/common/js/getArticleList';
+
 import Model from '../model/Model.vue';
 
 export default {
+    // TODO: 懒加载 还有 目录的bug修一下
     data() {
         return {
             article: [],
-            recommand: []
+            recommand: [],
+            pageNum: 0,
+            hasMore: true
         }
     },
     components: {
       Model
     },
-    mixins: [getSRecommand],
-    computed: {
-      displayLabel(arr) {
-      }
-    },
+    mixins: [getSRecommand, getArticleList],
     created() {
-      this.initConfig();
+      this.getArticle();
+      this.getRecommand();
     },
+    beforeRouteUpdate (to, from, next) {
+      document.body.scrollTop = 0;
+      next();
+    },
+    
     methods: {
-      ...mapMutations([
-        'CHANGE_ID'
-      ]),
-      async initConfig() {
-        const article = await getBrief({pageNum: 0, pageSie: 10});
+      // 懒加载
+      // async getArticle(pageNum = this.pageNum) {
+      //   pageNum ++;
+      //   const article = await getBrief({pageNum, pageSize: 10});
+      //   this.article = article;
+      //   this.pageNum = pageNum;
+      // },
+      getArticle() {
+        this.initArticleList();
+        this.article = this.articleList;
+      },
+      async getRecommand() {
         const recommand = await this.getSRecommand();
         const sliceRecommand = recommand.slice(0, 10);
-        this.article = article;
         this.recommand = sliceRecommand;
       },
       read(id) {
-        this.CHANGE_ID(id);
-        this.$router.push({name: 'read'});
+        this.$router.push({name: 'read', params: { id }});
         this.$parent.changeComponents();
       }
     }
@@ -148,7 +159,6 @@ export default {
     a {
       padding: 5px 0;
       display: inline;
-      // width: 100%;
     }
   }
 }

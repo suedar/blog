@@ -12,4 +12,5 @@ import fetch from '../config/fetch'
 export const getBrief = param => fetch('/article', param);
 export const getRecommand = param => fetch('/recommand', param);
 export const getAllMenu = () => fetch('/menu');
-export const getArticleDetail = id => fetch('/article/detail', id);
+export const getArticleDetail = id => fetch('/queryArticle', id);
+export const test = id => fetch('/test', id);

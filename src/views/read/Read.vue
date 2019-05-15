@@ -1,108 +1,181 @@
 <template>
-    <div class="read-container" v-html="article">
-        {{ article}}
-
-    <!-- ## 3.19
-    ### <del>标题右端浮动问题</del>
-
-    > [你需要知道的浮动二三事](https://suedar.github.io/2019/03/20/%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%84%E6%B5%AE%E5%8A%A8%E4%BA%8C%E4%B8%89%E4%BA%8B/)
-
-    {% raw %}
-    <p class="codepen" data-height="265" data-theme-id="0" data-default-tab="css,result" data-user="suedar" data-slug-hash="VRBXwd" style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid black; margin: 1em 0; padding: 1em;" data-pen-title="2019-03-01">
-        <span>See the Pen <a href="https://codepen.io/suedar/pen/VRBXwd/">
-        2019-03-01</a> by cookie (<a href="https://codepen.io/suedar">@suedar</a>)
-        on <a href="https://codepen.io">CodePen</a>.</span>
-    </p>
-    <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
-    {% endraw %}
-
-    右端浮动占位 使用width失效 设置上高度即可
-
-    ### flex布局
-
-    宽度不定 无法使用网格布局
-
-
-    ![](https://randomm.cdn.bcebos.com/display.png)
-
-
-    用margin-right？ -->
-
+    <div class="read-container">
+        <div class="title">
+            {{article.title}}
+        </div>
+        <div class="sub-title">
+            <font-awesome-icon icon="calendar-week"></font-awesome-icon>
+            {{article.created}}
+            <span class="line">|</span>
+                热度: {{article.temperature}}℃
+                <span class="line">|</span>
+                字数统计: {{article.wordCount}} 字
+                <span class="line">|</span>
+                阅读时长: {{article.readTime}} 分钟
+        </div>
+        <div class="label" v-if="article.labelList && article.labelList.length > 0">
+            <span class="line">|</span>
+            标签: {{article.labelList.join('、')}}
+        </div>
+        <div class="content" v-html="chapterContent"></div>
+        <div class="pager">
+            <div class="prev"
+                v-if="Object.keys(pager.prev).length > 0"
+                @click="changeId(pager.prev.id)">
+                < {{pager.prev.title}}
+            </div>
+            <div v-else>
+                没有上一页
+            </div>
+            <div class="next" v-if="Object.keys(pager.next).length > 0" @click="changeId(pager.next.id)">
+                {{pager.next.title}} > 
+            </div>
+            <div v-else>
+                没有下一页
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
+const hljs = require("highlight.js/lib/highlight.js");
+const hlHtml = require("highlight.js/lib/languages/xml.js");
+const hlCss = require("highlight.js/lib/languages/css.js");
+const hlJavascript = require("highlight.js/lib/languages/javascript.js");
+const hlJson = require("highlight.js/lib/languages/json.js");
+const hlBash = require("highlight.js/lib/languages/bash.js");
 
-import { mapState } from 'vuex';
-import marked from 'marked';
+import "highlight.js/styles/ocean.css";
 
-import { getArticleDetail } from '@/api/';
+import { mapState } from "vuex";
+import markdownIt from "markdown-it";
 
+import { getArticleDetail, test } from "@/api/";
+import getArticleList from '@/common/js/getArticleList';
 
 export default {
-    name: 'read',
-    data() {
-        return {
-            article: '',
-            // marked: false
+  title: "test",
+  name: "read",
+  data() {
+    return {
+      article: {},
+      chapterContent: "",
+      markdownit: {},
+      vEmbed: {},
+      pager: {
+          prev: {},
+          next: {}
+      }
+    };
+  },
+  mixins: [getArticleList],
+  inject: ['reload'],
+  created() {
+    this.initHljs();
+    this.queryArticle();
+    this.initPager();
+  },
+  methods: {
+    initHljs() {
+      hljs.registerLanguage("html", hlHtml);
+      hljs.registerLanguage("css", hlCss);
+      hljs.registerLanguage("javascript", hlJavascript);
+      hljs.registerLanguage("json", hlJson);
+      hljs.registerLanguage("bash", hlBash);
+      const options = {
+        html: true,
+        breaks: true,
+        linkify: true,
+        highlight(str, lang) {
+          if (lang && hljs.getLanguage(lang)) {
+            try {
+              return (
+                '<pre class="hljs"><code>' +
+                    hljs.highlight(lang, str, true).value +
+                "</code></pre>"
+              );
+            } catch (__) {}
+          }
+          return "";
         }
+      };
+      this.markdownit = markdownIt(options);
     },
-    created() {
-        this.queryArticle();
+    async queryArticle(id = this.$route.params.id) {
+        const article = await getArticleDetail({id});
+        this.article = article;
+        this.chapterContent = this.markdownit.render(article.chapterContent);
     },
-    computed: {
-        ...mapState([
-            'id'
-        ]),
-        // previewText() {
-        //     marked.setOptions({
-        //         renderer: new marked.Renderer(),
-        //         gfm: true,
-        //         tables: true,
-        //         breaks: true,
-        //         pedantic: false,
-        //         sanitize: true,
-        //         smartLists: true,
-        //         smartypants: false
-        //     });
-        //     return marked(this.md_text)
-        // }
+    initPager() {
+        this.initArticleList();
+        const id = this.id;
+        const articleList = this.articleList;
+        const curIndex = articleList.findIndex(item => item.id === id);
+        const pager = {
+            prev: curIndex > 0 ? articleList[curIndex - 1] : {},
+            next: curIndex < articleList.length - 1 ? articleList[curIndex + 1] : {}
+        };
+        this.pager = pager;
     },
-    methods: {
-        async queryArticle() {
-            const article = await getArticleDetail(this.id);
-            marked.setOptions({
-                renderer: new marked.Renderer(),
-                gfm: true,
-                tables: true,
-                breaks: true,
-                pedantic: false,
-                sanitize: true,
-                smartLists: true,
-                smartypants: false
-            });
-            this.article = marked(article);
-            // console.log(article);
-            // console.log(JSON.stringify(article))
-            // const strArticle = JSON.stringify(article).slice(1, -1);
-            // const replaceBr = strArticle.replace(/\\n/gi, '\\n');
-            // console.log(replaceBr)
-            // this.article = replaceBr;
-            // this.$nextTick(() => {
-            //     this.marked = true;
-            // })
-            // this.article = JSON.parse(article);
-        }
+    changeId(id) {
+        this.$router.push({name: 'read', params: { id }});
+        this.reload();
     }
-}
+  }
+};
 </script>
 
 <style lang="scss">
-    .read-container {
-        height: 100vh;
-        img {
-            width: initial;
-            height: initial;
+// @import url('@/common/css/article.scss');
+@import '@/common/css/article.scss';
+.read-container {
+  min-height: 66vh;
+  width: 800px;
+  margin: 5vh auto 10vh;
+  img {
+    width: initial;
+    height: initial;
+  }
+  .title, .sub-title, .label{
+    text-align: center;
+  }
+  .title {
+      font-size: 26px;
+      font-weight: 400;
+      margin: 20px 0 10px;
+  }
+    .label {
+        margin: 5px 0 40px;
+        .line {
+        color: $orange;
         }
     }
+  .sub-title {
+      font-size: 12px;
+      margin-top: 5px;
+      color: $grey;
+      .line {
+        margin: 0 5px;
+      }
+  }
+  .pager {
+      margin-top: 40px;
+      border-top: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      > div {
+            cursor: pointer;
+            padding-top: 10px;
+            color: #555;
+            text-decoration: none;
+            outline: none;
+            word-wrap: break-word;
+            &:hover {
+                color: #222;
+                border-bottom-color: #222;
+            }
+      }
+  }
+}
 </style>

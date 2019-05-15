@@ -3,7 +3,8 @@ import {
     CHANGE_FOOTER_TO_TOP,
     CHANGE_S_MENU,
     CHANGE_S_RECOMMAND,
-    CHANGE_ID
+    CHANGE_ID,
+    CHANGE_ARTICLE_LIST
 } from './mutation-types';
 
 export default {
@@ -21,5 +22,8 @@ export default {
     },
     [CHANGE_ID](state, id) {
         state.id = id;
+    },
+    [CHANGE_ARTICLE_LIST](state, articleList) {
+        state.articleList = articleList;
     }
 }

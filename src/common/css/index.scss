@@ -1,25 +1,22 @@
-
 @import url('https://fonts.googleapis.com/css?family=Gloria+Hallelujah|Kaushan+Script|Maven+Pro|Noto+Sans+SC|Noto+Serif+SC|ZCOOL+KuaiLe|ZCOOL+XiaoWei');
-
 $grey: #999;
 $lightGrey: #b5b4b4;
 $anotherGrey: #5f5b5b;
 $otherGrey: #777676;
 $orange: #ff9800;
 $pink: #e55d87;
-
 $dot: #eaeaea;
-
 $white: #fff;
 $litterWhite: #f2f2f2;
 $greyWhite: #f5f5f5;
-
 $lightBlue: #5fc3e4;
 $blue: #77cfea;
-
 $green: #91ae8c;
-
 $width: 55vw;
+::selection {
+    // background: #77cfea;
+    // color: #fff;
+}
 
 .icon {
     width: 16px;

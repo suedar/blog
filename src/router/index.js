@@ -36,7 +36,7 @@ export default new Router({
             name: 'about'
         }, {
             component: Read,
-            path: 'read',
+            path: 'read/:id',
             name: 'read'
         }, {
             redirect: { name: 'main' },

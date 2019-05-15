@@ -53,8 +53,6 @@ export default {
         'footer'
       ])
     },
-    created() {
-    },
     updated() {
       if (!this.calcHeight.fixedTop && this.hasRight) {
         const ref = this.$refs;
@@ -72,6 +70,7 @@ export default {
         changeRecommand() {
           // 好复杂 设置内部滑动
           // 限制不能滑太高
+          // BUG: 浏览器先处理滑动 再处理位置移动 会造成卡顿
           const footToTop = this.footer.toTop;
           const {fixedTop, footerHeight, fixedHeight, modelHeight, viewHeight} = this.calcHeight;
 
@@ -116,10 +115,19 @@ export default {
       width: 13vw;
       margin: 0 auto;
       top: calc(4vh + 240px);
-      transition: top 1s;
+      transition: all 1s; // this is not working
       position: sticky;
       padding: 15px;
       box-shadow: 0px 0px 3px .1px $lightGrey;
+      --top-pos: calc(4vh + 240px);
+      .change-top {
+        animation: changePos 1s linear forwards;
+      }
+      @keyframes changePos {
+        to {
+          top: val(--top-pos);
+        }
+      }
       .tag {
         width: 10px;
         height: 45px;

@@ -11,7 +11,9 @@
                         <span :id="item" class="dot">●</span>
                         {{item}}
                     </div>
-                    <div class="tag-item" v-for="labelItem in label[item]" :key="labelItem.id">
+                    <div class="tag-item"
+                        v-for="labelItem in label[item]" :key="labelItem.id"
+                        >
                         <span class="dot">●</span>
                         <span class="date">
                             {{labelItem.date}}
