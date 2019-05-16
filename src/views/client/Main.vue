@@ -8,7 +8,7 @@
         🍋 Welcome to my world! 🍋
       </div>
       <div class="bgIm">
-        <img src="../assets/img/rick.svg" alt="">
+        <img src="../../assets/img/rick.svg" alt="">
       </div>
       <div
         class="menu"
@@ -26,11 +26,11 @@
     <footer ref="footer">
       <div class="footer-container">
         <div class="account">
-          @ 2019 | <font-awesome-icon icon="user"></font-awesome-icon> &nbsp;suedar
+          @ 2019 | <span><font-awesome-icon icon="user"></font-awesome-icon> &nbsp;suedar</span>
         </div>
         <div class="footer-icon">
           <a href="https://github.com/suedar" target="_blank">
-            <img class="icon" src="../assets/img/github.svg" alt="">
+            <img class="icon" src="../../assets/img/github.svg" alt="">
             Github
           </a>
           <a href="mailto:690372513@qq.com" target="_blank">
@@ -38,7 +38,7 @@
             邮件
           </a>
           <a @click="showDialog = true">
-            <img class="icon" src="../assets/img/alipay.svg" alt="">
+            <img class="icon" src="../../assets/img/alipay.svg" alt="">
             赞赏
           </a>
         </div>

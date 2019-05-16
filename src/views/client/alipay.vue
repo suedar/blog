@@ -2,8 +2,8 @@
     <div class="alipay" @click="close">
         <div class="alipay-container">
             <div class="close" @click="close">x</div>
-            <img src="../assets/img/pocket_money.svg" alt="">
-            <img src="../assets/img/scan.svg" alt="">
+            <img src="../../assets/img/pocket_money.svg" alt="">
+            <img src="../../assets/img/scan.svg" alt="">
         </div>
     </div>
 </template>

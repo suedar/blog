@@ -11,7 +11,7 @@
                 <div class="intro">
                     <div class="content">
                         <div class="avatar">
-                            <img src="../../assets/img/avatar.svg" alt="">
+                            <img src="../../../assets/img/avatar.svg" alt="">
                         </div>
                         <div class="text">
                             一只前端er， 爱生活， 爱美食～
@@ -24,10 +24,10 @@
                         </div>
                         <div class="icon">
                             <a href="https://juejin.im/user/5a21473d6fb9a0451170eefe" target="_blank">
-                                <img src="../../assets/img/juejin.svg" alt="">
+                                <img src="../../../assets/img/juejin.svg" alt="">
                             </a>
                             <a href="https://github.com/suedar" target="_blank">
-                                <img src="../../assets/img/github.svg" alt="">
+                                <img src="../../../assets/img/github.svg" alt="">
                             </a>
                         </div>
                     </div>

@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Main from '@/views/Main.vue'
-import Content from '@/views/content/Main.vue';
-import Menu from '@/views/menu/Menu.vue';
-import Label from '@/views/label/Label.vue'
-import Link from '@/views/link/Link.vue'
-import About from '@/views/about/About.vue';
-import Read from '@/views/read/Read.vue';
+import Main from '@/views/client/Main.vue'
+import Content from '@/views/client/content/Main.vue';
+import Menu from '@/views/client/menu/Menu.vue';
+import Label from '@/views/client/label/Label.vue'
+import Link from '@/views/client/link/Link.vue'
+import About from '@/views/client/about/About.vue';
+import Read from '@/views/client/read/Read.vue';
 
 Vue.use(Router)
 
