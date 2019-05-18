@@ -38,20 +38,12 @@
 </template>
 
 <script>
-const hljs = require("highlight.js/lib/highlight.js");
-const hlHtml = require("highlight.js/lib/languages/xml.js");
-const hlCss = require("highlight.js/lib/languages/css.js");
-const hlJavascript = require("highlight.js/lib/languages/javascript.js");
-const hlJson = require("highlight.js/lib/languages/json.js");
-const hlBash = require("highlight.js/lib/languages/bash.js");
-
-import "highlight.js/styles/ocean.css";
 
 import { mapState } from "vuex";
-import markdownIt from "markdown-it";
 
-import { getArticleDetail, test } from "@/api/";
+import { getArticleDetail } from "@/api/";
 import getArticleList from '@/common/js/getArticleList';
+import mdConfig from '@/common/js/mdConfig';
 
 export default {
   title: "test",
@@ -60,47 +52,19 @@ export default {
     return {
       article: {},
       chapterContent: "",
-      markdownit: {},
-      vEmbed: {},
       pager: {
           prev: {},
           next: {}
       }
     };
   },
-  mixins: [getArticleList],
+  mixins: [getArticleList, mdConfig],
   inject: ['reload'],
   created() {
-    this.initHljs();
     this.queryArticle();
     this.initPager();
   },
   methods: {
-    initHljs() {
-      hljs.registerLanguage("html", hlHtml);
-      hljs.registerLanguage("css", hlCss);
-      hljs.registerLanguage("javascript", hlJavascript);
-      hljs.registerLanguage("json", hlJson);
-      hljs.registerLanguage("bash", hlBash);
-      const options = {
-        html: true,
-        breaks: true,
-        linkify: true,
-        highlight(str, lang) {
-          if (lang && hljs.getLanguage(lang)) {
-            try {
-              return (
-                '<pre class="hljs"><code>' +
-                    hljs.highlight(lang, str, true).value +
-                "</code></pre>"
-              );
-            } catch (__) {}
-          }
-          return "";
-        }
-      };
-      this.markdownit = markdownIt(options);
-    },
     async queryArticle(id = this.$route.params.id) {
         const article = await getArticleDetail({id});
         this.article = article;

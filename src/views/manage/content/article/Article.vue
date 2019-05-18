@@ -1,0 +1,119 @@
+<template>
+  <div class="article">
+    <div class="top">
+      <a-input-search
+        placeholder="请输入搜索标题"
+        style="width: 200px"
+        @search="val => handleTableChange({current: 1, pageSize: 10}, val)"
+      />
+      <a-button @click="$router.push({name: 'new-article'})" class="add" type="primary">
+        新增文章
+      </a-button>
+    </div>
+    <a-table
+      rowKey="id"
+      :pagination="pagination"
+      :columns="columns" :dataSource="data" bordered
+      @change="handleTableChange">
+      <template slot="operation" slot-scope="text, record">
+        <div class="editable-row-operations">
+          <span>
+            <a @click="editThis(record)">编辑</a>
+            <a @click="deleteThis(record)">删除</a>
+          </span>
+        </div>
+      </template>
+    </a-table>
+  </div>
+</template>
+<script>
+
+import { getBrief, delArticle } from "@/api/";
+
+export default {
+  data() {
+    return {
+      data: [],
+      pagination: {},
+      columns: [
+      {
+        title: "标题",
+        dataIndex: "title",
+        scopedSlots: { customRender: "title" }
+      },
+      {
+        title: "创建时间",
+        dataIndex: "created",
+        scopedSlots: { customRender: "created" }
+      },
+      {
+        title: "热度",
+        dataIndex: "temperature",
+        scopedSlots: { customRender: "temperature" }
+      },
+      {
+        title: "字数统计",
+        dataIndex: "readCount",
+        scopedSlots: { customRender: "readCount" }
+      },
+      {
+        title: "阅读时长",
+        dataIndex: "readTime",
+        scopedSlots: { customRender: "readTime" }
+      },
+      {
+        title: "标签",
+        dataIndex: "labelList",
+        scopedSlots: { customRender: "labelList" }
+      },
+      {
+        title: '操作',
+        dataIndex: 'operation',
+        scopedSlots: { customRender: 'operation' },
+      }
+    ]};
+  },
+  created() {
+    this.handleTableChange({current: 1, pageSize: 10});
+  },
+  methods: {
+    async handleTableChange(pager, title) {
+      const { data, page } = title ? await getBrief({pageNum: pager.current, pageSize: pager.pageSize, title}) : await getBrief({pageNum: pager.current, pageSize: pager.pageSize});
+      data.map(item => item.labelList = item.labelList.join('、'));
+      this.$set(this.pagination, 'total', page.totalNum);
+      this.data = data;
+    },
+    editThis(key) {
+      // console.log(key)
+      // const newData = [...this.data];
+      // const target = newData.filter(item => key === item.key)[0];
+      // if (target) {
+      //   target.editable = true;
+      //   this.data = newData;
+      // }
+    },
+    async deleteThis(key) {
+      try {
+        await delArticle(key.id);
+        this.$message.success('删除成功');
+      } catch (error) {
+        this.$message.error('删除失败');
+      }
+    }
+  }
+};
+</script>
+<style scoped lang="scss">
+.editable-row-operations a {
+  color: $blue;
+  margin-right: 8px;
+}
+.article {
+  padding: 0 30px;
+  .top {
+    display: flex;
+    justify-content: space-between;
+    margin: 30px 0 10px;
+  }
+}
+</style>

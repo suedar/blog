@@ -26,7 +26,7 @@
     <footer ref="footer">
       <div class="footer-container">
         <div class="account">
-          @ 2019 | <span><font-awesome-icon icon="user"></font-awesome-icon> &nbsp;suedar</span>
+          @ 2019 | <span @click="isLogin = true"><font-awesome-icon icon="user"></font-awesome-icon> &nbsp;suedar</span>
         </div>
         <div class="footer-icon">
           <a href="https://github.com/suedar" target="_blank">
@@ -45,6 +45,7 @@
       </div>
     </footer>
     <alipay v-if="showDialog" v-model="showDialog"></alipay>
+    <login v-model="isLogin"></login>
   </section>
 </template>
 
@@ -55,6 +56,8 @@ import _ from 'underscore';
 import { mapMutations } from 'vuex';
 
 import alipay from './alipay';
+import login from './login';
+
 import Main from './content/Main';
 import Menu from './menu/Menu';
 import Label from './label/Label';
@@ -64,7 +67,8 @@ import Read from './read/Read';
 
 export default {
   components: {
-    alipay
+    alipay,
+    login
   },
   data() {
     return {
@@ -96,7 +100,8 @@ export default {
       showDialog: false,
       headerTop: 0,
       content: Main,
-      isReading: false
+      isReading: false,
+      isLogin: false
     }
   },
   mounted() {
@@ -251,7 +256,7 @@ export default {
         font-size: 20px;
         // transform: translate(-100%);
         // animation: name-move .1s linear forwards;
-        transform: translate(-37%, 36%);
+        transform: translate(-37%, 20%);
       }
       @keyframes name-move {
         from {
@@ -270,7 +275,7 @@ export default {
         // display: none;
       }
       .menu {
-        transform: translate(23%, -146%);
+        transform: translate(23%, -134%);
         font-size: 14px;
         color: $greyWhite;
         // animation: changeColor .1s linear forwards;
@@ -339,6 +344,11 @@ export default {
         flex-direction: column;
         justify-content: space-evenly;
         margin: 0 auto;
+        .account {
+          span {
+            cursor: pointer;
+          }
+        }
         @media screen and (max-width: 800px) {
           margin: 0;
           width: 100%;

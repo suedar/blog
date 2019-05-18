@@ -13,4 +13,8 @@ export const getBrief = param => fetch('/article', param);
 export const getRecommand = param => fetch('/recommand', param);
 export const getAllMenu = () => fetch('/menu');
 export const getArticleDetail = id => fetch('/queryArticle', id);
-export const test = id => fetch('/test', id);
+
+export const userLogin = param => fetch('/login', param, 'POST');
+
+// 管理页面
+export const delArticle = id => fetch('/delArticle', id, 'DELECT');

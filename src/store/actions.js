@@ -5,7 +5,7 @@ import { CHANGE_ARTICLE_LIST } from './mutation-types';
 
 export default {
     async queryArticleList({ commit }) {
-        const articleList = await getBrief({ pageNum: 1, pageSize: 999 });
+        const { data: articleList, page } = await getBrief({ pageNum: 1, pageSize: 999 });
         setStore('articleList', articleList);
         commit(CHANGE_ARTICLE_LIST, articleList);
     }

@@ -13,7 +13,8 @@ const state = {
     sMenu: [],
     sRecommand: [],
     id: 0,
-    articleList: []
+    articleList: [],
+    isLogin: false
 }
 
 export default new Vuex.Store({
