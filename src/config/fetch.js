@@ -43,12 +43,6 @@ export default async(url = '', data = {}, type = 'GET') => {
         const response = type === 'GET' ? await fetch(url) : await fetch(url, { method: type, body: JSON.stringify(data) });
         const responseJson = await response.json();
         if (responseJson.success) {
-            if (responseJson.page) {
-                return {
-                    data: responseJson.data,
-                    page: responseJson.page
-                };
-            }
             return responseJson.data;
         } else {
             throw new Error(`Opps! Error occured. Error code: ${responseJson.code}. Error msssage: ${responseJson.message}.`)

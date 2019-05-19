@@ -11,10 +11,10 @@
                 <div class="intro">
                     <div class="content">
                         <div class="avatar">
-                            <img src="../../../assets/img/avatar.svg" alt="">
+                            <img :src="data.avatar" alt="">
                         </div>
                         <div class="text">
-                            一只前端er， 爱生活， 爱美食～
+                            {{data.motto}}
                         </div>
                         <div class="contact">
                             联系我:
@@ -41,9 +41,13 @@
 
 import Model from '../model/Model.vue';
 
+import { getPersonalInfo } from '@/api/';
+
 export default {
     data() {
         return {
+            data: {
+            }
         }
     },
     components: {
@@ -54,6 +58,8 @@ export default {
     },
     methods: {
         async initConfig() {
+            const data = await getPersonalInfo();
+            this.data = data;
         }
     }
 

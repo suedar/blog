@@ -29,6 +29,7 @@
 <script>
 
 import { getBrief, delArticle } from "@/api/";
+import { mapMutations } from 'vuex';
 
 export default {
   data() {
@@ -77,20 +78,16 @@ export default {
     this.handleTableChange({current: 1, pageSize: 10});
   },
   methods: {
+    ...mapMutations(['CHANGE_EDIT_ARTICLE']),
     async handleTableChange(pager, title) {
-      const { data, page } = title ? await getBrief({pageNum: pager.current, pageSize: pager.pageSize, title}) : await getBrief({pageNum: pager.current, pageSize: pager.pageSize});
+      const { result: data, totalNum } = title ? await getBrief({pageNum: pager.current, pageSize: pager.pageSize, title}) : await getBrief({pageNum: pager.current, pageSize: pager.pageSize});
       data.map(item => item.labelList = item.labelList.join('、'));
-      this.$set(this.pagination, 'total', page.totalNum);
+      this.$set(this.pagination, 'total', totalNum);
       this.data = data;
     },
     editThis(key) {
-      // console.log(key)
-      // const newData = [...this.data];
-      // const target = newData.filter(item => key === item.key)[0];
-      // if (target) {
-      //   target.editable = true;
-      //   this.data = newData;
-      // }
+      this.CHANGE_EDIT_ARTICLE(key);
+      this.$router.push({name: 'edit-article'});
     },
     async deleteThis(key) {
       try {

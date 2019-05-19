@@ -5,7 +5,8 @@ import {
     CHANGE_S_RECOMMAND,
     CHANGE_ID,
     CHANGE_ARTICLE_LIST,
-    CHANGE_LOGIN_STATUS
+    CHANGE_LOGIN_STATUS,
+    CHANGE_EDIT_ARTICLE
 } from './mutation-types';
 
 export default {
@@ -29,5 +30,8 @@ export default {
     },
     [CHANGE_LOGIN_STATUS](state, isLogin) {
         state.isLogin = isLogin;
+    },
+    [CHANGE_EDIT_ARTICLE](state, editArticle) {
+        state.editArticle = editArticle;
     }
 }

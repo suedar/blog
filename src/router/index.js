@@ -16,6 +16,9 @@ import Article from '@/views/manage/content/article/Article';
 import EditArticle from '@/views/manage/content/article/EditArticle';
 import NewArticle from '@/views/manage/content/article/NewArticle';
 
+import Intro from '@/views/manage/content/introduction/Intro';
+import Recommand from '@/views/manage/content/recommand/Recommand';
+
 Vue.use(Router);
 
 export default new Router({
@@ -23,33 +26,35 @@ export default new Router({
         path: '/',
         component: Main,
         children: [{
-            component: Content,
-            path: '',
-            name: 'main'
-        }, {
-            component: Menu,
-            path: 'menu',
-            name: 'menu'
-        }, {
-            component: Label,
-            path: 'label',
-            name: 'label'
-        }, {
-            component: Link,
-            path: 'link',
-            name: 'link'
-        }, {
-            component: About,
-            path: 'about',
-            name: 'about'
-        }, {
-            component: Read,
-            path: 'read/:id',
-            name: 'read'
-        }, {
-            redirect: { name: 'main' },
-            path: '*',
-        }]
+                component: Content,
+                path: '',
+                name: 'main'
+            }, {
+                component: Menu,
+                path: 'menu',
+                name: 'menu'
+            }, {
+                component: Label,
+                path: 'label',
+                name: 'label'
+            }, {
+                component: Link,
+                path: 'link',
+                name: 'link'
+            }, {
+                component: About,
+                path: 'about',
+                name: 'about'
+            }, {
+                component: Read,
+                path: 'read/:id',
+                name: 'read'
+            }
+            // , {
+            //     redirect: { name: 'main' },
+            //     path: '*',
+            // }
+        ]
     }, {
         component: Manage,
         path: '/manage',
@@ -57,6 +62,14 @@ export default new Router({
             component: Article,
             path: 'article',
             name: 'article'
+        }, {
+            component: Recommand,
+            path: 'recommand',
+            name: 'recommand'
+        }, {
+            component: Intro,
+            path: 'intro',
+            name: 'introduction'
         }]
     }, {
         component: NewArticle,
@@ -66,5 +79,8 @@ export default new Router({
         component: EditArticle,
         path: '/edit/article',
         name: 'edit-article'
+    }, {
+        redirect: { name: 'main' },
+        path: '*'
     }]
 })

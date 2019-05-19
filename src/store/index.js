@@ -14,7 +14,8 @@ const state = {
     sRecommand: [],
     id: 0,
     articleList: [],
-    isLogin: false
+    isLogin: false,
+    editArticle: {}
 }
 
 export default new Vuex.Store({
