@@ -58,6 +58,11 @@ export default {
             padding: 3vh 0 5vh;
             font-size: 20px;
         }
+        @media screen and (max-width: 800px) {
+            .text {
+                font-size: 14px;
+            }
+        }
         .link-item {
             padding: 10px 0;
             a {

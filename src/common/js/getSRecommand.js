@@ -22,7 +22,7 @@ export default {
         ]),
         async getSRecommand() {
             if (this.sRecommand.length === 0) {
-                const sRecommand = await getRecommand();
+                const { result: sRecommand, totalNum } = await getRecommand();
                 this.CHANGE_S_RECOMMAND(sRecommand);
             }
             return this.sRecommand;

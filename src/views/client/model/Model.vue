@@ -109,6 +109,9 @@ export default {
     #fixed-right {
       display: none;
     }
+    #model-content {
+      padding: 0 20px;
+    }
   }
   #fixed-right {
     .sum {

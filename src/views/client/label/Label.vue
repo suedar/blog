@@ -138,6 +138,24 @@ export default {
             top: 50%;
             transform: translate(-58%, -56%);
         }
+        @media screen and (max-width: 800px) {
+            .tag {
+                font-size: 19px;
+                height: 80px;
+                line-height: 80px;
+                .dot {
+                    &::before {
+                        position: absolute;
+                        background-color: #fff;
+                        width: 10px;
+                        height: 50px;
+                        right: 7px;
+                        bottom: -20px;
+                        content: '';
+                    }
+                }
+            }
+        }
     }
     .sum-header {
         font-family: 'Kaushan Script', cursive;

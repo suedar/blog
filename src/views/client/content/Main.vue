@@ -113,6 +113,9 @@ export default {
     // scroll-snap-align: center;
     &:hover {
       box-shadow: 1px 2px 5px .4px $orange;
+      @media screen and (max-width: 800px) {
+        box-shadow: none;
+      }
       .read-more a {
         color: $anotherGrey;
       }

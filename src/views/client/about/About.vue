@@ -73,6 +73,7 @@ export default {
         margin-bottom: 3vh;
         .decoration {
             position: relative;
+            z-index: 1;
             > div {
                 position: absolute;
                 background-color: $blue;
@@ -106,12 +107,10 @@ export default {
             }
         }
         .intro {
-            // margin-top: 10px;
-            margin-left: 75px;
+            z-index: 2;
+            margin: 0 75px;
             padding-top: 60px;
             .content {
-                // margin: 0 auto;
-                width: 50vw;
                 height: 50vh;
                 background-color: #fff;
                 border-radius: 10px;
@@ -120,11 +119,7 @@ export default {
                 justify-content: space-evenly;
                 align-items: center;
                 flex-direction: column;
-                // margin-top: 30px;
                 .avatar {
-                    // margin-left: 30px;
-                    // margin-top: 30px;
-                    // margin: 30px auto;
                     width: 80px;
                     height: 80px;
                     background-color: #d1e0dd;
@@ -141,10 +136,20 @@ export default {
                     }
                 }
                 .icon {
-                    width: 10vw;
+                    width: 100px;
                     display: flex;
                     justify-content: space-evenly;
                 }
+            }
+        }
+        @media screen and (max-width: 800px) {
+            .decoration {
+                display: none;
+            }
+            .intro {
+                padding: 20px 0;
+                margin: 0 40px;
+                // .icon {}
             }
         }
     }

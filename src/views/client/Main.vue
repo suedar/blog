@@ -12,11 +12,29 @@
       </div>
       <div
         class="menu"
-        :class="{'shart-show': scrollMenu.isStart, 'on-show': scrollMenu.isRoll}"
+        :class="{'shart-show': scrollMenu.isStart, 'on-show': scrollMenu.isRoll, 'small-adaption': isReading}"
         @click="changeContent">
         <div v-for="item in menu" :key="item.id" :data-path="item.path">
           <font-awesome-icon :icon="item.icon"></font-awesome-icon>
           {{item.text}}
+        </div>
+      </div>
+      <div
+        v-if="isReading"
+        class="display-small">
+        <font-awesome-icon 
+          icon="align-justify"
+          @click="canSmallMenu = !canSmallMenu"
+          ></font-awesome-icon>
+        <div
+          class="drop-down"
+          v-if="canSmallMenu"
+          @click="changeContent"
+          @mouseout="canSmallMenu = false">
+          <div v-for="item in menu" :key="item.id" :data-path="item.path">
+            <font-awesome-icon :icon="item.icon"></font-awesome-icon>
+            {{item.text}}
+          </div>
         </div>
       </div>
     </header>
@@ -101,7 +119,8 @@ export default {
       headerTop: 0,
       content: Main,
       isReading: false,
-      isLogin: false
+      isLogin: false,
+      canSmallMenu: false
     }
   },
   mounted() {
@@ -142,7 +161,7 @@ export default {
       e.preventDefault();
       const target = e.target || e.srcElement;
       const path = target.dataset.path;
-      const toPath = path ? path : {name: 'main'};
+      const toPath = path ? {name: path} : {name: 'main'};
       this.$router.push(toPath);
       this.changeComponents(path);
     },
@@ -178,12 +197,13 @@ export default {
       });
       setTimeout(() => {
         this.isReading = name === 'read' ? true : false;
+        this.canSmallMenu = false;
       }, 30);
     }
   },
   watch: {
-    $route(route) {
-      this.readAnimation(route.name);
+    $route(to, from) {
+      this.readAnimation(to.name);
     }
   }
 }
@@ -209,23 +229,19 @@ export default {
       font-family: "Verdana, Arial, Helvetica, sans-serif;";
       position: relative;
       text-align: center;
-      // scroll-snap-align: center;
       .name {
         font-size: 35px;
         padding: 30px 0 20px;
         font-weight: bold;
         font-family: 'Maven Pro', sans-serif;
-        // transform: translate(0);
-        // font-family: 'Kaushan Script', cursive;
       }
       .motto {
         font-family: 'Gloria Hallelujah', cursive;
-        padding-bottom: 8px;
+        padding-bottom: 10px;
       }
       .menu {
-        // transform: translate(0);
         @media screen and (max-width: 800px) {
-          font-size: 10px;
+          font-size: .8rem;
         }
       }
       .bgIm {
@@ -240,22 +256,47 @@ export default {
           width: initial;
         }
       }
+      .display-small {
+        display: none;
+        position: absolute;
+        right: 20px;
+        top: 10px;
+        font-size: 18px;
+        .drop-down {
+          position: absolute;
+          right: 0px;
+          width: 100px;
+          background-color: #888888;
+          opacity: .7;
+          font-size: 12px;
+          border-radius: 5px;
+          > div {
+            padding: 3px ;
+            cursor: pointer;
+            &:hover {
+              // color: $otherGrey;
+            }
+          }
+        }
+      }
+      @media screen and (max-width: 800px) {
+        .small-adaption {
+          display: none;
+        }
+        .display-small {
+          display: initial;
+        }
+      }
     }
     .read {
-      transition: all .7s ease-in;
+      transition: all .7s cubic-bezier(0.47, 0, 0.75, 0.72);
       > div {
-        transition: all .7s ease-in;
+        transition: all .7s cubic-bezier(0.47, 0, 0.75, 0.72);
       }
       height: 6vh;
-      // display: flex;
-      // padding: 0 13vw;
-      // align-items: center;
-      // justify-content: space-between;
       .name {
         padding: 0px;
         font-size: 20px;
-        // transform: translate(-100%);
-        // animation: name-move .1s linear forwards;
         transform: translate(-37%, 20%);
       }
       @keyframes name-move {
@@ -268,11 +309,9 @@ export default {
       }
       .motto {
         opacity: 0;
-        // display: none;
       }
       .bgIm {
         opacity: 0;
-        // display: none;
       }
       .menu {
         transform: translate(23%, -134%);
@@ -331,9 +370,7 @@ export default {
       transform: translateY(0);
     }
     footer {
-      // position: absolute;
       width: 100vw;
-      // bottom: 0px;
       height: 13vh;
       background-color: $greyWhite;
       color: $otherGrey;

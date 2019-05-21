@@ -138,6 +138,7 @@ export default {
                 z-index: 1;
             }
         }
+        
         .year-item {
             border-bottom: 1px dashed $grey;
             .date {
@@ -153,13 +154,30 @@ export default {
                 }
             }
             .label {
-                font-size: 6px;
+                font-size: 10px;
                 .label-item {
-                    border: 1px solid $otherGrey;
+                    display: inline-flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 20px;
+                    height: 20px;
+                    border: .6px solid $otherGrey;
                     padding: 2px;
+                    text-align: center;
                     margin-left: 6px;
                     border-radius: 3px;
                 }
+            }
+        }
+        .year .dot{
+            &::before {
+                position: absolute;
+                background-color: #fff;
+                width: 10px;
+                height: 60px;
+                right: 7px;
+                bottom: -10px;
+                content: '';
             }
         }
         .dot {
@@ -170,6 +188,24 @@ export default {
             left: 0px;
             top: 50%;
             transform: translate(-58%, -56%);
+        }
+        @media screen and (max-width: 800px) {
+            .year {
+                font-size: 19px;
+                height: 80px;
+                line-height: 80px;
+                .dot {
+                    &::before {
+                        position: absolute;
+                        background-color: #fff;
+                        width: 10px;
+                        height: 50px;
+                        right: 7px;
+                        bottom: -20px;
+                        content: '';
+                    }
+                }
+            }
         }
     }
     .sum-header {

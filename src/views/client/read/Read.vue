@@ -94,8 +94,7 @@ export default {
 @import '@/common/css/article.scss';
 .read-container {
   min-height: 66vh;
-  width: 800px;
-  margin: 5vh auto 10vh;
+  margin: 5vh 150px 10vh;
   img {
     width: initial;
     height: initial;
@@ -108,12 +107,12 @@ export default {
       font-weight: 400;
       margin: 20px 0 10px;
   }
-    .label {
-        margin: 5px 0 40px;
-        .line {
-        color: $orange;
-        }
-    }
+  .label {
+      margin: 5px 0 40px;
+      .line {
+      color: $orange;
+      }
+  }
   .sub-title {
       font-size: 12px;
       margin-top: 5px;
@@ -140,6 +139,12 @@ export default {
                 border-bottom-color: #222;
             }
       }
+  }
+  @media screen and (max-width: 800px) {
+    margin: 5vh 10px;
+    .label {
+      margin: 5px 0 20px;
+    }
   }
 }
 </style>
