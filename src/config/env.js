@@ -20,15 +20,16 @@ let imgBaseUrl = '';
 
 
 if (process.env.NODE_ENV === 'development') {
-	// baseUrl = 'http://yapi.demo.qunar.com/mock/64011';
-	baseUrl = "https://www.easy-mock.com/mock/5cbe744bf5d7db5ffebc9ab0/blog";
+    // baseUrl = 'http://yapi.demo.qunar.com/mock/64011';
+    // baseUrl = 'http://203.195.135.253:8080';
+    baseUrl = "https://www.easy-mock.com/mock/5cbe744bf5d7db5ffebc9ab0/blog";
 
 } else if (process.env.NODE_ENV === 'production') {
-	baseUrl = '//elm.cangdu.org';
+    baseUrl = '//elm.cangdu.org';
     imgBaseUrl = '//elm.cangdu.org/img/';
 }
 
 export {
-	baseUrl,
-	imgBaseUrl,
+    baseUrl,
+    imgBaseUrl,
 }

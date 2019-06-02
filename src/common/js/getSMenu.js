@@ -1,4 +1,3 @@
-
 /**
  * @file: Describe the file
  * @author: sunchao
@@ -23,7 +22,7 @@ export default {
         ]),
         async getSMenu() {
             if (this.sMenu.length === 0) {
-                const sMenu = await getAllMenu();
+                const { result: sMenu } = await getAllMenu({ isPage: false });
                 this.CHANGE_S_MENU(sMenu);
             }
             return this.sMenu;

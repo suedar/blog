@@ -2,11 +2,11 @@
     <div class="introduction">
         <div class="word-count">
             <label for="avatar">头像: </label>
-            <a-input v-model="data.avatar" />
+            <a-input v-model="data.headPic" />
         </div>
         <div class="read-time">
             <label for="motto">座右铭: </label>
-            <a-input v-model="data.motto" />
+            <a-input v-model="data.introduction" />
         </div>
         <div class="submit">
             <a-button type="primary" @click="submit">提交</a-button>

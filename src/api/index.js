@@ -9,17 +9,17 @@
 
 import fetch from '../config/fetch'
 
-export const getBrief = param => fetch('/article', param);
+export const getBrief = param => fetch('/article', param, 'POST');
 export const getRecommand = param => fetch('/recommand', param, 'POST');
-export const getAllMenu = () => fetch('/menu');
+export const getAllMenu = param => fetch('/article', param, 'POST');
 export const getArticleDetail = id => fetch('/queryArticle', id);
-export const getPersonalInfo = () => fetch('/selectByUserId');
+export const getPersonalInfo = () => fetch('/selectUserInfo');
 
 export const userLogin = param => fetch('/login', param, 'POST');
 
 // 管理页面
-export const delArticle = id => fetch('/delArticle', id, 'DELECT');
+export const delArticle = id => fetch('/delArticle', id);
 export const alterArticle = param => fetch('/alterArticle', param, 'POST');
-export const delRecommand = id => fetch('/delRecommand', id, 'DELECT');
+export const delRecommand = id => fetch('/delRecommand', id);
 export const alterRecommand = param => fetch('/alterRecommand', param, 'POST');
 export const alterPersonalMsg = param => fetch('/personalMsg', param, 'POST');

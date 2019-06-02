@@ -18,7 +18,7 @@
                         <span class="date">
                             {{labelItem.date}}
                         </span>
-                        <span class="title">
+                        <span class="title" @click="read(labelItem.id)">
                             {{labelItem.title}}
                         </span>
                     </div>
@@ -29,7 +29,7 @@
             标签分类
         </template>
         <template v-slot:sum-content>
-            <a v-for="item, index in labelSort" :key="item.id" :href="'#' + item">
+            <a v-for="(item, index) in labelSort" :key="item.id" :href="'#' + item">
                 {{emoji[index]}} {{item}} {{emoji[index]}}
             </a>
         </template>
@@ -66,14 +66,12 @@ export default {
             this.initEmoji();
         },
         handleArr(label) {
-            const labelArr = label.map(item => item.label);
+            const labelArr = label.map(item => item.labelList);
             const labelSort = (Array.from([...new Set(labelArr.flat(Infinity))])).sort((a, b) => a.localeCompare(b));
-            // const year = (Array.from([...new Set(arr.map(item => item.year))])).sort((a,b) => b - a);
             const obj = {};
             labelSort.forEach(item => {
-                obj[item] = label.filter(arrItem => (arrItem.label.findIndex(a => a === item)) !== -1)
+                obj[item] = label.filter(arrItem => (arrItem.labelList.findIndex(a => a === item)) !== -1)
             })
-            // console.log(obj)
             this.labelSort = labelSort;
             this.label = obj;
         },
@@ -82,6 +80,10 @@ export default {
             const emoji = labelSort.map(() => EMOJI.random().emoji);
             this.emoji = emoji;
         },
+        read(id) {
+            this.$router.push({name: 'read', params: { id }});
+            this.$parent.changeComponents();
+        }
     }
 }
 </script>

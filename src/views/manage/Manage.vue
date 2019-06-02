@@ -52,7 +52,8 @@ export default {
 <style lang="scss" scoped>
     .manage {
         position: relative;
-        overflow: hidden;
+        // height: 200vh;
+        // overflow: scroll;
         min-height: 100vh;
         display: flex;
         .menu {
@@ -60,6 +61,7 @@ export default {
         }
         .content {
             flex: 1;
+            // overflow: scroll;
         }
         .back {
             color: $grey;

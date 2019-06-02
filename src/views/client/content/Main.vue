@@ -75,7 +75,7 @@ export default {
       document.body.scrollTop = 0;
       next();
     },
-    
+    inject: ['reload'],
     methods: {
       // 懒加载
       // async getArticle(pageNum = this.pageNum) {
@@ -87,6 +87,7 @@ export default {
       getArticle() {
         this.initArticleList();
         this.article = this.articleList;
+        this.reload();
       },
       async getRecommand() {
         const recommand = await this.getSRecommand();

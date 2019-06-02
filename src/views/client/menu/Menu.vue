@@ -11,16 +11,22 @@
                         <span :id="item" class="dot">●</span>
                         {{item}}
                     </div>
-                    <div class="year-item" v-for="menuItem in menu[item]" :key="menuItem.id">
+                    <div class="year-item"
+                        v-for="menuItem in menu[item]"
+                        :key="menuItem.id"
+                        @click="read(menuItem.id)">
                         <span class="dot">●</span>
                         <span class="date">
-                            {{menuItem.date}}
+                            {{menuItem.created}}
                         </span>
                         <span class="title">
                             {{menuItem.title}}
                         </span>
                         <span class="label">
-                            <span class="label-item" v-for="labelItem in menuItem.label" :key="labelItem.id">
+                            <span class="label-item"
+                                v-for="labelItem in menuItem.label"
+                                :key="labelItem.id"
+                                >
                                 {{labelItem}}
                             </span>
                         </span>
@@ -67,6 +73,8 @@ export default {
         async initConfig() {
             const menu = await this.getSMenu();
             const curMenu = menu.map(item => {
+                item.created = item.created.slice(0, 19).replace(/T/, ' ')
+                item.date = item.created.slice(0, 10);
                 const arr = item.date.split('-');
                 const year = arr.shift();
                 const date = arr.join('-');
@@ -74,7 +82,8 @@ export default {
                     year, date,
                     title: item.title,
                     id: item.id,
-                    label: item.label
+                    label: item.labelList,
+                    created: item.created,
                 }
             })
             this.length = curMenu.length;
@@ -95,6 +104,10 @@ export default {
             const emoji = year.map(() => EMOJI.random().emoji);
             this.emoji = emoji;
         },
+        read(id) {
+            this.$router.push({name: 'read', params: { id }});
+            this.$parent.changeComponents();
+        }
     }
 }
 </script>
@@ -156,20 +169,29 @@ export default {
             .label {
                 font-size: 10px;
                 .label-item {
-                    display: inline-flex;
-                    justify-content: center;
-                    align-items: center;
-                    width: 20px;
-                    height: 20px;
+                    // display: inline-flex;
+                    // justify-content: center;
+                    // align-items: center;
+                    // width: 20px;
+                    // height: 20px;
                     border: .6px solid $otherGrey;
                     padding: 2px;
-                    text-align: center;
+                    // text-align: center;
                     margin-left: 6px;
                     border-radius: 3px;
                 }
             }
         }
         .year .dot{
+            &::after {
+                position: absolute;
+                background-color: #fff;
+                width: 10px;
+                height: 60px;
+                right: 7px;
+                top: -10px;
+                content: '';
+            }
             &::before {
                 position: absolute;
                 background-color: #fff;

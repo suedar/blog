@@ -4,7 +4,7 @@
       <a-input-search
         placeholder="请输入搜索标题"
         style="width: 200px"
-        @search="val => handleTableChange({current: 1, pageSize: 10}, val)"
+        @search="val => handleTableChange({current: 1, pageSize: 10}, val, 'search')"
       />
       <a-button @click="$router.push({name: 'new-article'})" class="add" type="primary">
         新增文章
@@ -54,8 +54,8 @@ export default {
       },
       {
         title: "字数统计",
-        dataIndex: "readCount",
-        scopedSlots: { customRender: "readCount" }
+        dataIndex: "wordCount",
+        scopedSlots: { customRender: "wordCount" }
       },
       {
         title: "阅读时长",
@@ -77,11 +77,17 @@ export default {
   created() {
     this.handleTableChange({current: 1, pageSize: 10});
   },
+  inject: ['reload'],
   methods: {
     ...mapMutations(['CHANGE_EDIT_ARTICLE']),
-    async handleTableChange(pager, title) {
-      const { result: data, totalNum } = title ? await getBrief({pageNum: pager.current, pageSize: pager.pageSize, title}) : await getBrief({pageNum: pager.current, pageSize: pager.pageSize});
-      data.map(item => item.labelList = item.labelList.join('、'));
+    async handleTableChange(pager, title, isSearch) {
+      const { result: data, totalNum } = isSearch === 'search' ? await getBrief({pageNum: pager.current, pageSize: pager.pageSize, title}) : await getBrief({pageNum: pager.current, pageSize: pager.pageSize});
+      data.map(item => {
+        item.created = item.created.slice(0, 19).replace(/T/, ' ');
+        item.created = item.created.toString();
+        item.labelList = item.labelList && item.labelList.join('、') || [];
+        return item;
+      });
       this.$set(this.pagination, 'total', totalNum);
       this.data = data;
     },
@@ -91,8 +97,9 @@ export default {
     },
     async deleteThis(key) {
       try {
-        await delArticle(key.id);
+        await delArticle({id: key.id});
         this.$message.success('删除成功');
+        this.reload();
       } catch (error) {
         this.$message.error('删除失败');
       }
@@ -106,11 +113,18 @@ export default {
   margin-right: 8px;
 }
 .article {
+  // height: 2000px;
+  min-height: 80vh;
+  overflow: auto;
   padding: 0 30px;
+  // overflow-y: scroll;
   .top {
     display: flex;
     justify-content: space-between;
     margin: 30px 0 10px;
+  }
+  .zhanwei {
+    height: 80vh;
   }
 }
 </style>

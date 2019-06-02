@@ -17,7 +17,8 @@ export default {
                 return;
             }
 
-            articleList = getStore('articleList');
+            // articleList = getStore('articleList'); // 这里不能走缓存
+            // console.log(articleList)
             if (!articleList || articleList.length === 0) {
                 this.queryArticleList();
             } else {

@@ -5,7 +5,7 @@
                 <div class="text">
                     😋 这些东西推荐你去看看哦
                 </div>
-                <div class="link-item" v-for="item, index in recommand" :key="item.id">
+                <div class="link-item" v-for="(item, index) in recommand" :key="item.id">
                     <a :href="item.link">
                         <span>></span> {{item.text}}
                     </a>
@@ -50,6 +50,7 @@ export default {
 
 <style lang="scss" scoped>
 .link-content {
+    min-height: 60.5vh;
     .main {
         display: flex;
         flex-direction: column;

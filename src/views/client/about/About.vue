@@ -11,10 +11,10 @@
                 <div class="intro">
                     <div class="content">
                         <div class="avatar">
-                            <img :src="data.avatar" alt="">
+                            <img :src="data.headPic" alt="">
                         </div>
                         <div class="text">
-                            {{data.motto}}
+                            {{data.introduction}}
                         </div>
                         <div class="contact">
                             联系我:

@@ -1,15 +1,15 @@
 <template>
     <div class="new-article">
         <header>
-            <a-input :value="data.title" placeholder="请输入标题" />
+            <a-input v-model="data.title" placeholder="请输入标题" />
             <div class="button">
                 <div class="release" @click="release"><a-button>发布</a-button></div>
                 <div class="cancel" @click="$router.push({name: 'article'})" ><a-button>取消</a-button></div>
             </div>
         </header>
         <div class="content">
-            <a-textarea class="write" v-model="data.articleContent" @change="editContent"/>
-            <div class="preview read-container" v-html="chapterContent"></div>
+            <a-textarea class="write" v-model="data.chapterContent" @change="editContent"/>
+            <div class="preview read-container" v-html="tempContent"></div>
         </div>
         <a-modal
             title="发布文章"
@@ -27,6 +27,10 @@
                 <div class="read-time">
                     <label for="">阅读时长: </label>
                     <a-input-number :min="0" v-model="data.readTime" />
+                </div>
+                <div class="created">
+                    <label for="">发表日期: </label>
+                    <a-input v-model="data.created"></a-input>
                 </div>
                 <div class="label-list">
                     <label for="labelList">标签: </label>
@@ -62,22 +66,35 @@ export default {
                 readTime: 0,
                 labelList: [],
                 content: '',
-                articleContent: ''
+                chapterContent: '',
+                created: ''
             },
-            chapterContent: '',
+            tempContent: '',
             labelText: '',
             visible: false
         }
     },
+    mounted() {
+        // const chapterContent = this.data.chapterContent;
+        // console.log(this.data)
+        // this.tempContent = this.markdownit.render(chapterContent);
+    },
     methods: {
         editContent(e) {
             const rawContent = e.target.value;
-            this.data.articleContent = rawContent;
-            this.chapterContent = this.markdownit.render(rawContent);
+            this.data.chapterContent = rawContent;
+            this.initMdContent(rawContent);
+        },
+        initMdContent(rawContent) {
+            this.tempContent = this.markdownit.render(rawContent);
         },
         release() {
-            const articleContent = this.data.articleContent;
-            this.data.content = articleContent && articleContent.slice(0, 200).replace(/\s+/g, '');
+            const chapterContent = this.data.chapterContent;
+            const rawDate = this.data.created;
+            const date = rawDate ? new Date(rawDate) : new Date();
+            this.data.wordCount = chapterContent && chapterContent.length;
+            this.data.content = chapterContent && chapterContent.slice(0, 200).replace(/\s+/g, '');
+            this.data.created = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
             this.visible = true;
         },
         makeTag(e) {
@@ -89,7 +106,9 @@ export default {
         },
         async handleOk(e) {
             try {
-                await alterArticle(this.data);
+                const data = this.data;
+                data.created = new Date(data.created);
+                await alterArticle(data);
                 this.$message.success('发布成功');
                 this.$router.push({name: 'article'});
             } catch (error) {

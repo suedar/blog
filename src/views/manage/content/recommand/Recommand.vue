@@ -82,9 +82,11 @@ export default {
   created() {
     this.handleTableChange({current: 1, pageSize: 10});
   },
+  inject: ['reload'],  
   methods: {
     async handleTableChange(pager, text) {
       const { result: data, totalNum } = text ? await getRecommand({pageNum: pager.current, pageSize: pager.pageSize, text}) : await getRecommand({pageNum: pager.current, pageSize: pager.pageSize});
+      data.map(item => item.created = item.created.slice(0, 19).replace(/T/, ' '));
       this.$set(this.pagination, 'total', totalNum);
       this.data = data;
     },
@@ -94,8 +96,9 @@ export default {
     },
     async deleteThis(key) {
       try {
-        await delRecommand(key.id);
+        await delRecommand({id: key.id});
         this.$message.success('删除成功');
+        this.reload();
       } catch (error) {
         this.$message.error('删除失败');
       }
@@ -104,12 +107,11 @@ export default {
         try {
             await alterRecommand(this.curRecommand);
             this.$message.success('发布成功');
+            this.reload();
             this.visible = false;
         } catch (error) {
             this.$message.error('发布失败');
         }
-    },
-    handleCancel() {
     }
   }
 };
