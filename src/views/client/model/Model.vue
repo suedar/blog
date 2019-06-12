@@ -89,6 +89,8 @@ export default {
 
 <style lang="scss" scoped>
 #model {
+  min-height: calc(87vh - 190px);
+  height: 100%;
   padding-top: 4vh;
   color: $grey;
   display: flex;

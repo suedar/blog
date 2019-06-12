@@ -21,8 +21,6 @@ export default {
             // console.log(articleList)
             if (!articleList || articleList.length === 0) {
                 this.queryArticleList();
-            } else {
-                this.CHANGE_ARTICLE_LIST(articleList);
             }
         }
     },

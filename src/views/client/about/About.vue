@@ -68,8 +68,10 @@ export default {
 
 <style lang="scss" scoped>
 .about-content {
+    height: 100%;
     .main {
         // height: 80vh;
+        height: 100%;
         margin-bottom: 3vh;
         .decoration {
             position: relative;

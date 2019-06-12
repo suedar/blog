@@ -38,9 +38,11 @@
         </div>
       </div>
     </header>
-    <keep-alive exclude="read">
-      <component :is="content"></component>
-    </keep-alive>
+    <div class="content">
+      <keep-alive exclude="read">
+        <component :is="content"></component>
+      </keep-alive>
+    </div>
     <footer ref="footer">
       <div class="footer-container">
         <div class="account">
@@ -215,13 +217,16 @@ export default {
     height: 20px;
   }
   .container {
-    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     position: relative;
     overflow: hidden;
-    overflow-y: scroll;
+    // overflow-y: scroll;
     scroll-behavior: smooth;
     scroll-snap-type: y mandatory;
     .main-header {
+      flex: 0 0 auto;
       height: 190px;
       box-shadow: 0px 3px 3px .3px $lightGrey;
       background: linear-gradient(135deg, $orange 5%, $lightBlue 100%);
@@ -258,9 +263,10 @@ export default {
       }
       .display-small {
         display: none;
-        position: absolute;
-        right: 20px;
-        top: 10px;
+        margin-top: .1rem;
+        // position: relative;
+        // right: 20px;
+        // top: 10px;
         font-size: 18px;
         .drop-down {
           position: absolute;
@@ -279,7 +285,7 @@ export default {
           }
         }
       }
-      @media screen and (max-width: 800px) {
+      @media screen and (max-width: 1024px) {
         .small-adaption {
           display: none;
         }
@@ -288,36 +294,35 @@ export default {
         }
       }
     }
+    .content {
+      flex: 1 0 auto;
+    }
     .read {
-      transition: all .7s cubic-bezier(0.47, 0, 0.75, 0.72);
-      > div {
-        transition: all .7s cubic-bezier(0.47, 0, 0.75, 0.72);
-      }
+      // transition: all .7s cubic-bezier(0.47, 0, 0.75, 0.72);
+      // > div {
+      //   transition: all .7s cubic-bezier(0.47, 0, 0.75, 0.72);
+      // }
       height: 6vh;
+      @media screen and (min-width: 450px) and (max-width: 1024px)  {
+        // height: 4vh;
+      }
+      display: flex;
+      padding: 0 2rem;
+      justify-content: space-between;
+      align-items: center;
       .name {
         padding: 0px;
         font-size: 20px;
-        transform: translate(-37%, 20%);
-      }
-      @keyframes name-move {
-        from {
-          transform: translate(0);
-        }
-        to {
-          transform: translate(-50%, 38%);
-        }
       }
       .motto {
-        opacity: 0;
+        display: none;
       }
       .bgIm {
-        opacity: 0;
+        display: none;
       }
       .menu {
-        transform: translate(23%, -134%);
         font-size: 14px;
         color: $greyWhite;
-        // animation: changeColor .1s linear forwards;
       }
     }
     .menu {
@@ -370,6 +375,9 @@ export default {
       transform: translateY(0);
     }
     footer {
+      // position: absolute;
+      // bottom: 0px;
+      flex: 0 0 auto;
       width: 100vw;
       height: 13vh;
       background-color: $greyWhite;

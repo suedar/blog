@@ -99,6 +99,9 @@ export default {
             padding-left: 3rem;
             border-left: 3px solid $greyWhite;
             position: relative;
+            @media screen and (max-width: 800px) {
+                height: auto;
+            }
         }
         .text {
             .dot {

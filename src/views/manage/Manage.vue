@@ -13,7 +13,7 @@
         <div class="content">
             <router-view></router-view>
         </div>
-        <div class="back" @click="$router.push({name: 'main'})">
+        <div class="back" @click="toMain">
             <div class="back-wrapper">
                 <font-awesome-icon icon="reply-all">
                 </font-awesome-icon>
@@ -23,6 +23,8 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
+
 export default {
     data() {
         return {
@@ -42,9 +44,24 @@ export default {
             defaultKey: ['article']
         }
     },
+    computed: {
+        ...mapState(['isLogin'])
+    },
     created() {
+        if (!this.isLogin) {
+            this.$router.push({name: 'main'});
+        }
         const key = this.$route.name;
         this.defaultKey = [key];
+    },
+    methods: {
+        ...mapActions([
+            'queryArticleList'
+        ]),
+        async toMain() {
+            await this.queryArticleList();
+            this.$router.push({name: 'main'});
+        }
     }
 }
 </script>

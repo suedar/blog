@@ -32,6 +32,8 @@ export default {
     word-break: break-all;
   }
   html, body {
+    height: 100%;
+    
     /* overflow: hidden; */
   }
 </style>

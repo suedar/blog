@@ -3,7 +3,7 @@
         <template v-slot:content>
           <div
             class="content"
-            v-for="item in article"
+            v-for="item in articleList"
             :key="item.id"
             :title="item.title"
             @click="read(item.id)">
@@ -75,7 +75,7 @@ export default {
       document.body.scrollTop = 0;
       next();
     },
-    inject: ['reload'],
+    // inject: ['reload'],
     methods: {
       // 懒加载
       // async getArticle(pageNum = this.pageNum) {
@@ -86,8 +86,8 @@ export default {
       // },
       getArticle() {
         this.initArticleList();
-        this.article = this.articleList;
-        this.reload();
+        // this.article = this.articleList;
+        // this.reload();
       },
       async getRecommand() {
         const recommand = await this.getSRecommand();
