@@ -10,11 +10,11 @@
             <h2>{{item.title}}</h2>
             <div class="tip">
               <font-awesome-icon icon="calendar-alt"></font-awesome-icon>
-              Posted on {{item.created}}
+              Posted on {{item.created.slice(0, 19).replace(/T/, ' ')}}
               <span class="line">|</span>
               热度: {{item.temperature}}℃
               <span class="line">|</span>
-              字数统计: {{item.readCount}} 字
+              字数统计: {{item.wordCount}} 字
               <span class="line">|</span>
               阅读时长: {{item.readTime}} 分钟
             </div>
